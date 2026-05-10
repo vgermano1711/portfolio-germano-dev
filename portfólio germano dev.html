@@ -609,12 +609,12 @@ async function loadData(){
 
   const { data: pData, error: pErr } = await sb.from('projects').select('*').order('created_at', { ascending: false });
   if (!pErr && pData && pData.length) {
-    projs = pData.map(r => ({ id:r.id, name:r.name, tags:r.tags||[], desc:r.desc||'', img:r.img||'', link:r.link||'' }));
+    projs = pData.map(r => ({ id:r.id, name:r.name, tags:r.tags||[], desc:r.description||'', img:r.img||'', link:r.link||'' }));
   } else {
     projs = clone(DEFAULTS);
     const reversed = [...DEFAULTS].slice().reverse();
     for (const p of reversed) {
-      await sb.from('projects').upsert({ id:p.id, name:p.name, tags:p.tags, desc:p.desc||'', img:p.img||'', link:p.link||'' });
+      await sb.from('projects').upsert({ id:p.id, name:p.name, tags:p.tags, description:p.desc||'', img:p.img||'', link:p.link||'' });
     }
   }
 
@@ -950,7 +950,7 @@ async function saveProject(){
 
   if (editId){
     if (sb) {
-      const { error } = await sb.from('projects').upsert({ id:editId, name, tags, desc, img, link });
+      const { error } = await sb.from('projects').upsert({ id:editId, name, tags, description:desc, img, link });
       if (error) { toast('❌ Erro ao salvar. Verifique sua conexão.'); resetBtn(); return; }
     } else {
       const i = projs.findIndex(p=>p.id===editId);
@@ -968,7 +968,7 @@ async function saveProject(){
   } else {
     const newId = 'p'+Date.now();
     if (sb) {
-      const { error } = await sb.from('projects').insert({ id:newId, name, tags, desc, img, link });
+      const { error } = await sb.from('projects').insert({ id:newId, name, tags, description:desc, img, link });
       if (error) { toast('❌ Erro ao salvar. Verifique sua conexão.'); resetBtn(); return; }
     } else {
       localStorage.setItem('gd_v4', JSON.stringify([{id:newId, name, tags, desc, img, link}, ...projs]));
