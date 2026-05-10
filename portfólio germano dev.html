@@ -6,6 +6,7 @@
 <title>Germano Dev — Portfólio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -533,8 +534,18 @@ body.panel-open #fab-group{right:496px}
    CONFIG
 ══════════════════════════════════════ */
 const PASS = 'Careca1711@';
-const SK   = 'gd_v4';
-const SKC  = 'gd_courses_v1';
+
+// ── Supabase: cole suas credenciais após criar o projeto em supabase.com ──
+const SUPABASE_URL = 'https://qgjokpntznrjsjmlaogm.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_QBIsYpqbAITPj-5gVGmfJg_ZaHTxQ8y';
+// ─────────────────────────────────────────────────────────────────────────
+
+let sb = null;
+try {
+  if (SUPABASE_URL !== 'YOUR_SUPABASE_URL') {
+    sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  }
+} catch(e) { console.warn('Supabase não configurado — modo offline ativo.'); }
 
 const DEFAULTS = [
   {id:'d1',name:'Bolsa Pro',tags:['Fintech','Dashboard','Finanças'],
@@ -578,19 +589,45 @@ let imgData      = '';     // base64 from upload
 /* ══════════════════════════════════════
    BOOT
 ══════════════════════════════════════ */
-document.addEventListener('DOMContentLoaded', () => {
-  try { const s = localStorage.getItem(SK);  projs   = s ? JSON.parse(s) : clone(DEFAULTS); }
-  catch { projs = clone(DEFAULTS); }
-  try { const c = localStorage.getItem(SKC); courses = c ? JSON.parse(c) : clone(DEFAULT_COURSES); }
-  catch { courses = clone(DEFAULT_COURSES); }
+document.addEventListener('DOMContentLoaded', async () => {
+  await loadData();
   render();
   renderCourses();
   bindGlobal();
 });
 
 function clone(x){ return JSON.parse(JSON.stringify(x)); }
-function save(){   localStorage.setItem(SK,  JSON.stringify(projs)); }
-function saveC(){  localStorage.setItem(SKC, JSON.stringify(courses)); }
+
+async function loadData(){
+  if (!sb) {
+    try { const s = localStorage.getItem('gd_v4');  projs   = s ? JSON.parse(s) : clone(DEFAULTS); }
+    catch { projs = clone(DEFAULTS); }
+    try { const c = localStorage.getItem('gd_courses_v1'); courses = c ? JSON.parse(c) : clone(DEFAULT_COURSES); }
+    catch { courses = clone(DEFAULT_COURSES); }
+    return;
+  }
+
+  const { data: pData, error: pErr } = await sb.from('projects').select('*').order('created_at', { ascending: false });
+  if (!pErr && pData && pData.length) {
+    projs = pData.map(r => ({ id:r.id, name:r.name, tags:r.tags||[], desc:r.description||'', img:r.img||'', link:r.link||'' }));
+  } else {
+    projs = clone(DEFAULTS);
+    const reversed = [...DEFAULTS].slice().reverse();
+    for (const p of reversed) {
+      await sb.from('projects').upsert({ id:p.id, name:p.name, tags:p.tags, description:p.desc||'', img:p.img||'', link:p.link||'' });
+    }
+  }
+
+  const { data: cData, error: cErr } = await sb.from('courses').select('*').order('created_at', { ascending: true });
+  if (!cErr && cData && cData.length) {
+    courses = cData.map(r => ({ id:r.id, name:r.name, inst:r.inst||'' }));
+  } else {
+    courses = clone(DEFAULT_COURSES);
+    for (const c of DEFAULT_COURSES) {
+      await sb.from('courses').upsert({ id:c.id, name:c.name, inst:c.inst });
+    }
+  }
+}
 
 /* ══════════════════════════════════════
    RENDER PROJECTS
@@ -884,7 +921,7 @@ function liveUpdateCurso(){
 /* ══════════════════════════════════════
    SAVE
 ══════════════════════════════════════ */
-function saveProject(){
+async function saveProject(){
   const name = document.getElementById('ep-name').value.trim();
   const desc = document.getElementById('ep-desc').value.trim();
   const tags = document.getElementById('ep-tags').value
@@ -906,38 +943,60 @@ function saveProject(){
   btn.classList.add('loading');
   btn.innerHTML = '<svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Publicando...';
 
-  setTimeout(() => {
-    if (editId){
-      const i = projs.findIndex(p=>p.id===editId);
-      if (i!==-1) projs[i] = {...projs[i], name, tags, desc, img, link};
-      save(); render();
-      // re-highlight
-      setTimeout(()=>{
-        const card = document.querySelector(`.proj[data-id="${editId}"]`);
-        if (card) card.classList.add('active-edit');
-      }, 50);
-      toast('✓ Projeto atualizado e publicado!');
-    } else {
-      const newId = 'p'+Date.now();
-      projs.unshift({id:newId, name, tags, desc, img, link});
-      save(); render(); closePanel();
-      toast('✓ Projeto adicionado ao portfólio!');
-    }
+  const resetBtn = () => {
     btn.classList.remove('loading');
     btn.innerHTML = '<svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Salvar e Publicar';
-  }, 600);
+  };
+
+  if (editId){
+    if (sb) {
+      const { error } = await sb.from('projects').upsert({ id:editId, name, tags, description:desc, img, link });
+      if (error) { toast('❌ Erro ao salvar. Verifique sua conexão.'); resetBtn(); return; }
+    } else {
+      const i = projs.findIndex(p=>p.id===editId);
+      if (i!==-1) projs[i] = {...projs[i], name, tags, desc, img, link};
+      localStorage.setItem('gd_v4', JSON.stringify(projs));
+    }
+    const i = projs.findIndex(p=>p.id===editId);
+    if (i!==-1) projs[i] = {...projs[i], name, tags, desc, img, link};
+    render();
+    setTimeout(()=>{
+      const card = document.querySelector(`.proj[data-id="${editId}"]`);
+      if (card) card.classList.add('active-edit');
+    }, 50);
+    toast('✓ Projeto atualizado e publicado!');
+  } else {
+    const newId = 'p'+Date.now();
+    if (sb) {
+      const { error } = await sb.from('projects').insert({ id:newId, name, tags, description:desc, img, link });
+      if (error) { toast('❌ Erro ao salvar. Verifique sua conexão.'); resetBtn(); return; }
+    } else {
+      localStorage.setItem('gd_v4', JSON.stringify([{id:newId, name, tags, desc, img, link}, ...projs]));
+    }
+    projs.unshift({id:newId, name, tags, desc, img, link});
+    render(); closePanel();
+    toast('✓ Projeto adicionado ao portfólio!');
+  }
+  resetBtn();
 }
 
 /* ══════════════════════════════════════
    DELETE
 ══════════════════════════════════════ */
-function confirmDelete(){
+async function confirmDelete(){
   if (!editId) return;
   const p = projs.find(p=>p.id===editId);
   if (!p) return;
   if (!confirm(`Excluir "${p.name}" permanentemente?`)) return;
+  if (sb) {
+    const { error } = await sb.from('projects').delete().eq('id', editId);
+    if (error) { toast('❌ Erro ao excluir. Verifique sua conexão.'); return; }
+  } else {
+    projs = projs.filter(p=>p.id!==editId);
+    localStorage.setItem('gd_v4', JSON.stringify(projs));
+  }
   projs = projs.filter(p=>p.id!==editId);
-  save(); render(); closePanel();
+  render(); closePanel();
   toast('🗑 Projeto excluído');
 }
 
@@ -970,7 +1029,7 @@ function prevFile(inp){
 /* ══════════════════════════════════════
    SAVE COURSE
 ══════════════════════════════════════ */
-function saveCourse(){
+async function saveCourse(){
   const name = document.getElementById('ec-name').value.trim();
   const inst = document.getElementById('ec-inst').value.trim();
   const err  = document.getElementById('ec-err');
@@ -982,33 +1041,57 @@ function saveCourse(){
   btn.classList.add('loading');
   btn.innerHTML = '<svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Salvando...';
 
-  setTimeout(() => {
-    if (editCourseId){
-      const i = courses.findIndex(c=>c.id===editCourseId);
-      if (i!==-1) courses[i] = {...courses[i], name, inst};
-      saveC(); renderCourses();
-      toast('✓ Curso atualizado!');
-    } else {
-      const newId = 'c'+Date.now();
-      courses.push({id:newId, name, inst});
-      saveC(); renderCourses(); closePanel();
-      toast('✓ Curso adicionado à lista!');
-    }
+  const resetBtn = () => {
     btn.classList.remove('loading');
     btn.innerHTML = '<svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Salvar Curso';
-  }, 400);
+  };
+
+  if (editCourseId){
+    if (sb) {
+      const { error } = await sb.from('courses').upsert({ id:editCourseId, name, inst });
+      if (error) { toast('❌ Erro ao salvar. Verifique sua conexão.'); resetBtn(); return; }
+    } else {
+      const i = courses.findIndex(c=>c.id===editCourseId);
+      if (i!==-1) courses[i] = {...courses[i], name, inst};
+      localStorage.setItem('gd_courses_v1', JSON.stringify(courses));
+    }
+    const i = courses.findIndex(c=>c.id===editCourseId);
+    if (i!==-1) courses[i] = {...courses[i], name, inst};
+    renderCourses();
+    toast('✓ Curso atualizado!');
+  } else {
+    const newId = 'c'+Date.now();
+    if (sb) {
+      const { error } = await sb.from('courses').insert({ id:newId, name, inst });
+      if (error) { toast('❌ Erro ao salvar. Verifique sua conexão.'); resetBtn(); return; }
+    } else {
+      courses.push({id:newId, name, inst});
+      localStorage.setItem('gd_courses_v1', JSON.stringify(courses));
+    }
+    courses.push({id:newId, name, inst});
+    renderCourses(); closePanel();
+    toast('✓ Curso adicionado à lista!');
+  }
+  resetBtn();
 }
 
 /* ══════════════════════════════════════
    DELETE COURSE
 ══════════════════════════════════════ */
-function confirmDeleteCourse(){
+async function confirmDeleteCourse(){
   if (!editCourseId) return;
   const c = courses.find(c=>c.id===editCourseId);
   if (!c) return;
   if (!confirm(`Excluir "${c.name}" permanentemente?`)) return;
+  if (sb) {
+    const { error } = await sb.from('courses').delete().eq('id', editCourseId);
+    if (error) { toast('❌ Erro ao excluir. Verifique sua conexão.'); return; }
+  } else {
+    courses = courses.filter(c=>c.id!==editCourseId);
+    localStorage.setItem('gd_courses_v1', JSON.stringify(courses));
+  }
   courses = courses.filter(c=>c.id!==editCourseId);
-  saveC(); renderCourses(); closePanel();
+  renderCourses(); closePanel();
   toast('🗑 Curso excluído');
 }
 
