@@ -4,7 +4,6 @@
 
 > Site de portfólio pessoal com painel admin dinâmico, banco de dados Supabase e deploy automático no Netlify.
 
-**Site de portfólio pessoal com painel admin dinâmico, integração com banco de dados e deploy em produção.**
 
 [![Deploy](https://img.shields.io/badge/🌐_Ver_ao_vivo-germanodev--portfolio.netlify.app-00C7B7?style=for-the-badge)](https://germanodev-portfolio.netlify.app/)
 [![HTML](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://developer.mozilla.org/pt-BR/docs/Web/HTML)
