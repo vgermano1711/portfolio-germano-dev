@@ -2,6 +2,8 @@
 
 # 🎨 Germano Dev — Portfólio Pessoal
 
+> Site de portfólio pessoal com painel admin dinâmico, banco de dados Supabase e deploy automático no Netlify.
+
 **Site de portfólio pessoal com painel admin dinâmico, integração com banco de dados e deploy em produção.**
 
 [![Deploy](https://img.shields.io/badge/🌐_Ver_ao_vivo-germanodev--portfolio.netlify.app-00C7B7?style=for-the-badge)](https://germanodev-portfolio.netlify.app/)
