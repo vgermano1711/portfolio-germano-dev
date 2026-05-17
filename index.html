@@ -79,7 +79,7 @@ body.panel-open nav{right:480px}
 .hero-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0;animation:pulse 2s infinite}
 
 h1{font-family:var(--title);font-size:clamp(3rem,6.5vw,6rem);font-weight:800;line-height:1.03;letter-spacing:-.04em;margin-bottom:1.5rem}
-h1 .dim{color:#333}
+h1 .dim{color:var(--gray-dark);color:#333}
 
 .hero-sub{font-family:var(--body);font-size:.98rem;font-weight:300;color:var(--gray);max-width:500px;margin-bottom:2.5rem;line-height:1.8;letter-spacing:.01em}
 .hero-sub strong{color:var(--white-mid);font-weight:500}
@@ -141,6 +141,7 @@ h1 .dim{color:#333}
 .cl-item span{color:#444;font-size:.74rem}
 
 /* ── CONTACT ── */
+#contato{}
 .cs{font-family:var(--body);font-weight:300;color:var(--gray);max-width:440px;margin:0 auto 2.5rem;font-size:.92rem;line-height:1.75}
 .cr{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap}
 
@@ -186,7 +187,7 @@ body.panel-open #fab-group{right:496px}
 .ep-mode-dot{width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0}
 .ep-title{font-family:var(--title);font-size:.8rem;font-weight:700;color:var(--white)}
 .ep-subtitle{font-family:var(--body);font-size:.66rem;color:var(--gray);margin-top:.1rem}
-.ep-close{background:rgba(255,255,255,.06);border:none;width:28px;height:28px;border-radius:50%;cursor:pointer;color:var(--gray);font-size:.82rem;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.ep-close{background:rgba(255,255,255,.06);border:none;width:28px;height:28px;border-radius:50%;cursor:pointer;color:var(--gray);font-size:.85rem;display:flex;align-items:center;justify-content:center;transition:all .2s}
 .ep-close:hover{background:rgba(255,255,255,.12);color:var(--white)}
 .ep-tabs{display:flex;border-bottom:1px solid var(--border);flex-shrink:0;background:#0a0a0a}
 .ep-tab{flex:1;padding:.7rem;font-family:var(--title);font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:transparent;border:none;color:var(--gray);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s}
@@ -542,41 +543,77 @@ h1{animation:up .65s ease both .18s}
       <div class="demo-dot"></div>
       <div class="demo-dot"></div>
     </div>
+
+    <!-- Pane 1 -->
     <div class="demo-pane active" id="demo-pane-1">
       <div class="demo-eyebrow">Portfólio Profissional</div>
       <h2 class="demo-title">Olá. Sou Victor Germano.</h2>
       <p class="demo-text">Desenvolvedor e designer especializado em criar experiências digitais memoráveis. Este portfólio exibe projetos reais, habilidades e trajetória — tudo construído com atenção ao detalhe.</p>
       <div class="demo-stats">
-        <div class="demo-stat"><span class="stat-num">5+</span><span class="stat-label">Projetos entregues</span></div>
-        <div class="demo-stat"><span class="stat-num">3+</span><span class="stat-label">Anos de estudo</span></div>
-        <div class="demo-stat"><span class="stat-num">100%</span><span class="stat-label">Comprometimento</span></div>
+        <div class="demo-stat">
+          <span class="stat-num">5+</span>
+          <span class="stat-label">Projetos entregues</span>
+        </div>
+        <div class="demo-stat">
+          <span class="stat-num">3+</span>
+          <span class="stat-label">Anos de estudo</span>
+        </div>
+        <div class="demo-stat">
+          <span class="stat-num">100%</span>
+          <span class="stat-label">Comprometimento</span>
+        </div>
       </div>
       <div class="demo-nav">
         <button class="demo-next" onclick="demoGo(2)">O que você vai ver →</button>
       </div>
     </div>
+
+    <!-- Pane 2 -->
     <div class="demo-pane" id="demo-pane-2">
       <div class="demo-eyebrow">Projetos em destaque</div>
       <h2 class="demo-title">Trabalho real.<br>Resultado real.</h2>
       <p class="demo-text">Cada projeto é construído do zero — sem templates genéricos. Do design à entrega, com foco em performance e identidade visual.</p>
       <div class="demo-proj-list">
-        <div class="demo-proj-item"><div class="demo-proj-name">Bolsa Pro</div><div class="demo-proj-tags">Fintech · Dashboard · Finanças</div></div>
-        <div class="demo-proj-item"><div class="demo-proj-name">Academia Agits</div><div class="demo-proj-tags">Institucional · UI/UX · Conversão</div></div>
-        <div class="demo-proj-item"><div class="demo-proj-name">Alma Estudos Visuais</div><div class="demo-proj-tags">Artístico · Identidade Visual</div></div>
+        <div class="demo-proj-item">
+          <div class="demo-proj-name">Bolsa Pro</div>
+          <div class="demo-proj-tags">Fintech · Dashboard · Finanças</div>
+        </div>
+        <div class="demo-proj-item">
+          <div class="demo-proj-name">Academia Agits</div>
+          <div class="demo-proj-tags">Institucional · UI/UX · Conversão</div>
+        </div>
+        <div class="demo-proj-item">
+          <div class="demo-proj-name">Alma Estudos Visuais</div>
+          <div class="demo-proj-tags">Artístico · Identidade Visual</div>
+        </div>
       </div>
       <div class="demo-nav">
         <button class="demo-back" onclick="demoGo(1)">← Voltar</button>
         <button class="demo-next" onclick="demoGo(3)">Vale a pena? →</button>
       </div>
     </div>
+
+    <!-- Pane 3 -->
     <div class="demo-pane" id="demo-pane-3">
       <div class="demo-eyebrow">Por que me contratar?</div>
       <h2 class="demo-title">Sim.<br>Aqui está o porquê.</h2>
       <div class="demo-reasons">
-        <div class="demo-reason"><span class="reason-icon">◆</span><span>Código limpo e manual, sem templates genéricos</span></div>
-        <div class="demo-reason"><span class="reason-icon">◆</span><span>Design profissional com identidade visual única para cada projeto</span></div>
-        <div class="demo-reason"><span class="reason-icon">◆</span><span>Integração com IA para soluções mais inteligentes e eficientes</span></div>
-        <div class="demo-reason"><span class="reason-icon">◆</span><span>Disponível agora para freelas, colaborações e novos projetos</span></div>
+        <div class="demo-reason">
+          <span class="reason-icon">◆</span>
+          <span>Código limpo e manual, sem templates genéricos</span>
+        </div>
+        <div class="demo-reason">
+          <span class="reason-icon">◆</span>
+          <span>Design profissional com identidade visual única para cada projeto</span>
+        </div>
+        <div class="demo-reason">
+          <span class="reason-icon">◆</span>
+          <span>Integração com IA para soluções mais inteligentes e eficientes</span>
+        </div>
+        <div class="demo-reason">
+          <span class="reason-icon">◆</span>
+          <span>Disponível agora para freelas, colaborações e novos projetos</span>
+        </div>
       </div>
       <div class="demo-nav">
         <button class="demo-back" onclick="demoGo(2)">← Voltar</button>
@@ -608,6 +645,9 @@ h1{animation:up .65s ease both .18s}
 <div id="toast"></div>
 
 <script>
+/* ══════════════════════════════════════
+   CONFIG
+══════════════════════════════════════ */
 const PASS = 'Careca1711@';
 const SUPABASE_URL = 'https://qgjokpntznrjsjmlaogm.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_QBIsYpqbAITPj-5gVGmfJg_ZaHTxQ8y';
@@ -646,8 +686,21 @@ const DEFAULT_COURSES = [
   {id:'c6', name:'Banco de dados — Censo Cadastral',   inst:'ENAP'},
 ];
 
-let admin=false,projs=[],courses=[],editId=null,editCourseId=null,panelMode='project',imgMode='url',imgData='';
+/* ══════════════════════════════════════
+   STATE
+══════════════════════════════════════ */
+let admin        = false;
+let projs        = [];
+let courses      = [];
+let editId       = null;
+let editCourseId = null;
+let panelMode    = 'project';
+let imgMode      = 'url';
+let imgData      = '';
 
+/* ══════════════════════════════════════
+   BOOT
+══════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', async () => {
   await loadData();
   render();
@@ -688,49 +741,71 @@ async function loadData(){
   }
 }
 
+/* ══════════════════════════════════════
+   PARALLAX
+══════════════════════════════════════ */
 function initParallax(){
   const hero = document.getElementById('hero');
   const layer = document.getElementById('parallax-bg');
+
   window.addEventListener('scroll', () => {
     const scrolled = window.scrollY;
     if (layer) layer.style.transform = `translateY(${scrolled * 0.35}px)`;
     const content = hero ? hero.querySelector('.hero-content') : null;
     if (content) content.style.transform = `translateY(${scrolled * 0.12}px)`;
   }, { passive: true });
+
   hero && hero.addEventListener('mousemove', e => {
     const rect = hero.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width - 0.5;
     const y = (e.clientY - rect.top)  / rect.height - 0.5;
-    if (layer) layer.style.transform = `translateY(${window.scrollY * 0.35}px) translate(${x * 18}px, ${y * 18}px)`;
+    if (layer) layer.style.transform += ` translate(${x * 18}px, ${y * 18}px)`;
   });
 }
 
+/* ══════════════════════════════════════
+   FADE ON SCROLL
+══════════════════════════════════════ */
 function initFadeObserver(){
   const obs = new IntersectionObserver(entries => {
     entries.forEach(entry => {
-      if (entry.isIntersecting){ entry.target.classList.add('visible'); obs.unobserve(entry.target); }
+      if (entry.isIntersecting){
+        entry.target.classList.add('visible');
+        obs.unobserve(entry.target);
+      }
     });
   }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
   document.querySelectorAll('.fade-el').forEach(el => obs.observe(el));
 }
 
+/* ══════════════════════════════════════
+   DEMO NAVIGATION
+══════════════════════════════════════ */
 let demoStep = 1;
 function demoGo(step){
   document.getElementById(`demo-pane-${demoStep}`).classList.remove('active');
   demoStep = step;
   document.getElementById(`demo-pane-${demoStep}`).classList.add('active');
-  document.querySelectorAll('.demo-dot').forEach((d, i) => { d.classList.toggle('active', i < demoStep); });
+  document.querySelectorAll('.demo-dot').forEach((d, i) => {
+    d.classList.toggle('active', i < demoStep);
+  });
 }
 
+/* ══════════════════════════════════════
+   RENDER PROJECTS
+══════════════════════════════════════ */
 function render(){
   const list  = document.getElementById('proj-list');
   const empty = document.getElementById('proj-empty');
   list.innerHTML = '';
   if (!projs.length){ empty.style.display='block'; return; }
   empty.style.display = 'none';
+
   projs.forEach((p,i) => {
     const num  = String(i+1).padStart(2,'0');
     const tags = (p.tags||[]).map(t=>`<span class="proj-tag">${x(t)}</span>`).join('');
+
     const el = document.createElement('div');
     el.className = `proj ${admin?'admin-mode':'normal-mode'} fade-el`;
     el.style.transitionDelay = `${i * 0.06}s`;
@@ -751,6 +826,7 @@ function render(){
           <button class="ab del-btn"  data-id="${p.id}">🗑 Excluir</button>
         </div>
       </div>`;
+
     el.addEventListener('click', e => {
       const editB = e.target.closest('.edit-btn');
       const delB  = e.target.closest('.del-btn');
@@ -759,22 +835,35 @@ function render(){
       if (!admin && p.link) window.open(p.link,'_blank','noopener');
       if (admin) openEdit(p.id);
     });
+
     list.appendChild(el);
   });
-  setTimeout(() => {
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); } });
-    }, { threshold: 0.08 });
-    document.querySelectorAll('.proj.fade-el:not(.visible)').forEach(el => obs.observe(el));
-  }, 50);
+
+  // re-observe new project cards
+  if (window._fadeObs) {
+    document.querySelectorAll('.proj.fade-el:not(.visible)').forEach(el => window._fadeObs.observe(el));
+  } else {
+    setTimeout(() => {
+      document.querySelectorAll('.proj.fade-el').forEach(el => {
+        const obs = new IntersectionObserver(entries => {
+          entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); } });
+        }, { threshold: 0.08 });
+        obs.observe(el);
+      });
+    }, 50);
+  }
 }
 
+/* ══════════════════════════════════════
+   RENDER COURSES
+══════════════════════════════════════ */
 function renderCourses(){
   const list  = document.getElementById('curso-list');
   const empty = document.getElementById('curso-empty');
   list.innerHTML = '';
   if (!courses.length){ empty.style.display='block'; return; }
   empty.style.display = 'none';
+
   courses.forEach(c => {
     const li = document.createElement('li');
     li.className = `cl-item${admin ? ' admin-mode' : ''}`;
@@ -798,6 +887,9 @@ function renderCourses(){
   });
 }
 
+/* ══════════════════════════════════════
+   AUTH — double-click logo
+══════════════════════════════════════ */
 function bindGlobal(){
   document.getElementById('nav-logo').addEventListener('dblclick', e => {
     e.preventDefault();
@@ -811,7 +903,8 @@ function bindGlobal(){
   document.addEventListener('keydown', e => {
     if(e.key==='Escape'){
       document.querySelectorAll('.ov.open').forEach(o => closeOv(o.id));
-      closePanel(); closeFabMenu();
+      closePanel();
+      closeFabMenu();
     }
   });
   document.addEventListener('click', e => {
@@ -847,6 +940,9 @@ function logoutAdmin(){
   toast('Sessão encerrada');
 }
 
+/* ══════════════════════════════════════
+   EDITOR PANEL
+══════════════════════════════════════ */
 function setProjectMode(){
   panelMode = 'project';
   document.getElementById('ep-tabs').classList.remove('course-mode');
@@ -905,7 +1001,10 @@ function openEdit(id){
   openPanel();
 }
 
-function openDeletePanel(id){ openEdit(id); epTab('danger', document.querySelectorAll('.ep-tab.tab-project')[1]); }
+function openDeletePanel(id){
+  openEdit(id);
+  epTab('danger', document.querySelectorAll('.ep-tab.tab-project')[1]);
+}
 
 function openNewCoursePanel(){
   setCourseMode(); editCourseId = null;
@@ -933,7 +1032,10 @@ function openEditCourse(id){
   openPanel();
 }
 
-function openDeleteCoursePanel(id){ openEditCourse(id); epTab('danger-curso', document.querySelectorAll('.ep-tab.tab-course')[1]); }
+function openDeleteCoursePanel(id){
+  openEditCourse(id);
+  epTab('danger-curso', document.querySelectorAll('.ep-tab.tab-course')[1]);
+}
 
 function epTab(name, btn){
   document.querySelectorAll('.ep-tab').forEach(t=>t.classList.remove('on'));
@@ -952,6 +1054,9 @@ function epTab(name, btn){
   }
 }
 
+/* ══════════════════════════════════════
+   LIVE PREVIEW
+══════════════════════════════════════ */
 function liveUpdate(){
   const name = document.getElementById('ep-name').value||'Nome do projeto';
   const desc = document.getElementById('ep-desc').value||'Descrição aparece aqui...';
@@ -968,6 +1073,9 @@ function liveUpdateCurso(){
   document.getElementById('cpv-inst').textContent = document.getElementById('ec-inst').value || 'Instituição';
 }
 
+/* ══════════════════════════════════════
+   SAVE
+══════════════════════════════════════ */
 async function saveProject(){
   const name = document.getElementById('ep-name').value.trim();
   const desc = document.getElementById('ep-desc').value.trim();
@@ -1014,6 +1122,9 @@ async function saveProject(){
   resetBtn();
 }
 
+/* ══════════════════════════════════════
+   DELETE
+══════════════════════════════════════ */
 async function confirmDelete(){
   if (!editId) return;
   const p = projs.find(p=>p.id===editId);
@@ -1031,6 +1142,9 @@ async function confirmDelete(){
   toast('🗑 Projeto excluído');
 }
 
+/* ══════════════════════════════════════
+   IMAGE
+══════════════════════════════════════ */
 function iTab(mode, btn){
   imgMode = mode;
   document.querySelectorAll('.itab').forEach(t=>{
@@ -1053,6 +1167,9 @@ function prevFile(inp){
   r.readAsDataURL(f);
 }
 
+/* ══════════════════════════════════════
+   SAVE COURSE
+══════════════════════════════════════ */
 async function saveCourse(){
   const name = document.getElementById('ec-name').value.trim();
   const inst = document.getElementById('ec-inst').value.trim();
@@ -1093,6 +1210,9 @@ async function saveCourse(){
   resetBtn();
 }
 
+/* ══════════════════════════════════════
+   DELETE COURSE
+══════════════════════════════════════ */
 async function confirmDeleteCourse(){
   if (!editCourseId) return;
   const c = courses.find(c=>c.id===editCourseId);
@@ -1109,6 +1229,9 @@ async function confirmDeleteCourse(){
   renderCourses(); closePanel(); toast('🗑 Curso excluído');
 }
 
+/* ══════════════════════════════════════
+   FAB MENU
+══════════════════════════════════════ */
 function toggleFabMenu(){
   const menu = document.getElementById('fab-menu');
   const fab  = document.getElementById('fab');
@@ -1141,6 +1264,9 @@ function closeOv(id){
   document.body.style.overflow = '';
 }
 
+/* ══════════════════════════════════════
+   HELPERS
+══════════════════════════════════════ */
 function clearEpForm(){
   ['ep-name','ep-tags','ep-desc','ep-img-url','ep-link'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('ep-img-file').value = '';
