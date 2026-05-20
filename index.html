@@ -764,13 +764,21 @@ let imgData      = '';
    BOOT
 ══════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', async () => {
-  await loadData();
+  // Renderiza defaults imediatamente para não mostrar página vazia
+  projs   = JSON.parse(JSON.stringify(DEFAULTS));
+  courses = JSON.parse(JSON.stringify(DEFAULT_COURSES));
+  skills  = [...DEFAULT_SKILLS];
   render();
   renderCourses();
   renderSkills();
   bindGlobal();
   initParallax();
   initFadeObserver();
+  // Depois atualiza com dados reais do Supabase
+  await loadData();
+  render();
+  renderCourses();
+  renderSkills();
 });
 
 function clone(x){ return JSON.parse(JSON.stringify(x)); }
