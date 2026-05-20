@@ -1378,15 +1378,19 @@ async function confirmDelete(){
   if (!confirm(`Excluir "${p.name}" permanentemente?`)) return;
   if (sb) {
     // Guarda o ID excluído na lista sentinel em courses (só usa upsert em courses)
-    const { data: existing, error: selErr } = await sb.from('courses').select('name').eq('id','__del_proj__').maybeSingle();
-    let ids = [];
-    try { if (existing) ids = JSON.parse(existing.name || '[]'); } catch {}
-    if (!ids.includes(editId)) ids.push(editId);
-    const { error } = await sb.from('courses').upsert({ id:'__del_proj__', name: JSON.stringify(ids), inst:'__del_proj__' });
-    if (error || selErr) {
-      const msg = (error||selErr).message || (error||selErr).code || JSON.stringify(error||selErr);
-      console.error('Delete error:', error, selErr);
-      toast('❌ ' + msg);
+    try {
+      const { data: existing } = await sb.from('courses').select('name').eq('id','__del_proj__').maybeSingle();
+      let ids = [];
+      try { if (existing) ids = JSON.parse(existing.name || '[]'); } catch {}
+      if (!ids.includes(editId)) ids.push(editId);
+      const { error } = await sb.from('courses').upsert({ id:'__del_proj__', name: JSON.stringify(ids), inst:'__del_proj__' });
+      if (error) { toast('❌ Supabase: ' + (error.message || error.code)); return; }
+    } catch(e) {
+      if (e.message && e.message.includes('fetch')) {
+        toast('❌ Banco offline. Acesse supabase.com e reative o projeto.');
+      } else {
+        toast('❌ ' + e.message);
+      }
       return;
     }
   } else {
