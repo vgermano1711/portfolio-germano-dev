@@ -821,37 +821,51 @@ async function loadData(){
     catch { toolTags = [...DEFAULT_TOOLS]; }
     return;
   }
-  const { data: pData, error: pErr } = await sb.from('projects').select('*').order('created_at', { ascending: false });
+  // Carrega projetos e courses em paralelo
+  const [projRes, courseRes] = await Promise.all([
+    sb.from('projects').select('*').order('created_at', { ascending: false }),
+    sb.from('courses').select('*').order('created_at', { ascending: true })
+  ]);
+  const { data: pData, error: pErr } = projRes;
+  const { data: cData, error: cErr } = courseRes;
+
+  const SENTINELS = ['__skills__','__prompt__','__tools__','__del_proj__','__del_course__'];
+
+  // Listas de IDs excluídos — guardadas em courses como sentinels
+  let deletedProjIds = [], deletedCourseIds = [];
+  if (!cErr && cData) {
+    const dpRow = cData.find(r => r.id === '__del_proj__');
+    const dcRow = cData.find(r => r.id === '__del_course__');
+    try { if (dpRow) deletedProjIds   = JSON.parse(dpRow.name   || '[]'); } catch {}
+    try { if (dcRow) deletedCourseIds = JSON.parse(dcRow.name   || '[]'); } catch {}
+  }
+
   if (!pErr && pData && pData.length) {
-    projs = pData.filter(r => r.name !== '__deleted__').map(r => ({ id:r.id, name:r.name, tags:r.tags||[], desc:r.description||'', img:r.img||'', link:r.link||'' }));
+    projs = pData.filter(r => !deletedProjIds.includes(r.id))
+                 .map(r => ({ id:r.id, name:r.name, tags:r.tags||[], desc:r.description||'', img:r.img||'', link:r.link||'' }));
   } else {
     projs = clone(DEFAULTS);
-    const reversed = [...DEFAULTS].slice().reverse();
-    for (const p of reversed) {
+    for (const p of [...DEFAULTS].reverse()) {
       await sb.from('projects').upsert({ id:p.id, name:p.name, tags:p.tags, description:p.desc||'', img:p.img||'', link:p.link||'' });
     }
   }
-  const { data: cData, error: cErr } = await sb.from('courses').select('*').order('created_at', { ascending: true });
-  const SENTINELS = ['__skills__','__prompt__','__tools__'];
+
   if (!cErr && cData && cData.length) {
-    const skillsRow  = cData.find(r => r.id === '__skills__');
-    const promptRow  = cData.find(r => r.id === '__prompt__');
-    const toolsRow   = cData.find(r => r.id === '__tools__');
+    const skillsRow = cData.find(r => r.id === '__skills__');
+    const promptRow = cData.find(r => r.id === '__prompt__');
+    const toolsRow  = cData.find(r => r.id === '__tools__');
     if (skillsRow) { try { skills     = JSON.parse(skillsRow.name); } catch { skills     = [...DEFAULT_SKILLS]; } }
     else { skills = [...DEFAULT_SKILLS]; await sb.from('courses').upsert({ id:'__skills__', name: JSON.stringify(DEFAULT_SKILLS), inst:'__skills__' }); }
     if (promptRow) { try { promptTags = JSON.parse(promptRow.name); } catch { promptTags = [...DEFAULT_PROMPT]; } }
     else { promptTags = [...DEFAULT_PROMPT]; await sb.from('courses').upsert({ id:'__prompt__', name: JSON.stringify(DEFAULT_PROMPT), inst:'__prompt__' }); }
     if (toolsRow)  { try { toolTags   = JSON.parse(toolsRow.name);  } catch { toolTags   = [...DEFAULT_TOOLS];  } }
     else { toolTags  = [...DEFAULT_TOOLS];  await sb.from('courses').upsert({ id:'__tools__',  name: JSON.stringify(DEFAULT_TOOLS),  inst:'__tools__'  }); }
-    courses = cData.filter(r => !SENTINELS.includes(r.id) && r.name !== '__deleted__').map(r => ({ id:r.id, name:r.name, inst:r.inst||'' }));
+    courses = cData.filter(r => !SENTINELS.includes(r.id) && !deletedCourseIds.includes(r.id))
+                   .map(r => ({ id:r.id, name:r.name, inst:r.inst||'' }));
   } else {
-    courses    = clone(DEFAULT_COURSES);
-    skills     = [...DEFAULT_SKILLS];
-    promptTags = [...DEFAULT_PROMPT];
-    toolTags   = [...DEFAULT_TOOLS];
-    for (const c of DEFAULT_COURSES) {
-      await sb.from('courses').upsert({ id:c.id, name:c.name, inst:c.inst });
-    }
+    courses = clone(DEFAULT_COURSES); skills = [...DEFAULT_SKILLS];
+    promptTags = [...DEFAULT_PROMPT]; toolTags = [...DEFAULT_TOOLS];
+    for (const c of DEFAULT_COURSES) await sb.from('courses').upsert({ id:c.id, name:c.name, inst:c.inst });
     await sb.from('courses').upsert({ id:'__skills__', name: JSON.stringify(DEFAULT_SKILLS), inst:'__skills__' });
     await sb.from('courses').upsert({ id:'__prompt__', name: JSON.stringify(DEFAULT_PROMPT), inst:'__prompt__' });
     await sb.from('courses').upsert({ id:'__tools__',  name: JSON.stringify(DEFAULT_TOOLS),  inst:'__tools__'  });
@@ -1363,7 +1377,12 @@ async function confirmDelete(){
   if (!p) return;
   if (!confirm(`Excluir "${p.name}" permanentemente?`)) return;
   if (sb) {
-    const { error } = await sb.from('projects').upsert({ id: editId, name: '__deleted__', tags: [], description: '', img: '', link: '' });
+    // Guarda o ID excluído na lista sentinel em courses (só usa upsert em courses)
+    const { data: existing } = await sb.from('courses').select('name').eq('id','__del_proj__').maybeSingle();
+    let ids = [];
+    try { if (existing) ids = JSON.parse(existing.name || '[]'); } catch {}
+    if (!ids.includes(editId)) ids.push(editId);
+    const { error } = await sb.from('courses').upsert({ id:'__del_proj__', name: JSON.stringify(ids), inst:'__del_proj__' });
     if (error) { toast('❌ Erro ao excluir.'); return; }
   } else {
     projs = projs.filter(p=>p.id!==editId);
@@ -1451,7 +1470,11 @@ async function confirmDeleteCourse(){
   if (!c) return;
   if (!confirm(`Excluir "${c.name}" permanentemente?`)) return;
   if (sb) {
-    const { error } = await sb.from('courses').upsert({ id: editCourseId, name: '__deleted__', inst: '__deleted__' });
+    const { data: existing } = await sb.from('courses').select('name').eq('id','__del_course__').maybeSingle();
+    let ids = [];
+    try { if (existing) ids = JSON.parse(existing.name || '[]'); } catch {}
+    if (!ids.includes(editCourseId)) ids.push(editCourseId);
+    const { error } = await sb.from('courses').upsert({ id:'__del_course__', name: JSON.stringify(ids), inst:'__del_course__' });
     if (error) { toast('❌ Erro ao excluir.'); return; }
   } else {
     courses = courses.filter(c=>c.id!==editCourseId);
