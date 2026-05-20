@@ -1363,7 +1363,7 @@ async function confirmDelete(){
   if (!p) return;
   if (!confirm(`Excluir "${p.name}" permanentemente?`)) return;
   if (sb) {
-    const { error } = await sb.from('projects').update({ name: '__deleted__' }).eq('id', editId);
+    const { error } = await sb.from('projects').upsert({ id: editId, name: '__deleted__', tags: [], description: '', img: '', link: '' });
     if (error) { toast('❌ Erro ao excluir.'); return; }
   } else {
     projs = projs.filter(p=>p.id!==editId);
@@ -1451,7 +1451,7 @@ async function confirmDeleteCourse(){
   if (!c) return;
   if (!confirm(`Excluir "${c.name}" permanentemente?`)) return;
   if (sb) {
-    const { error } = await sb.from('courses').update({ name: '__deleted__' }).eq('id', editCourseId);
+    const { error } = await sb.from('courses').upsert({ id: editCourseId, name: '__deleted__', inst: '__deleted__' });
     if (error) { toast('❌ Erro ao excluir.'); return; }
   } else {
     courses = courses.filter(c=>c.id!==editCourseId);
