@@ -1378,12 +1378,17 @@ async function confirmDelete(){
   if (!confirm(`Excluir "${p.name}" permanentemente?`)) return;
   if (sb) {
     // Guarda o ID excluído na lista sentinel em courses (só usa upsert em courses)
-    const { data: existing } = await sb.from('courses').select('name').eq('id','__del_proj__').maybeSingle();
+    const { data: existing, error: selErr } = await sb.from('courses').select('name').eq('id','__del_proj__').maybeSingle();
     let ids = [];
     try { if (existing) ids = JSON.parse(existing.name || '[]'); } catch {}
     if (!ids.includes(editId)) ids.push(editId);
     const { error } = await sb.from('courses').upsert({ id:'__del_proj__', name: JSON.stringify(ids), inst:'__del_proj__' });
-    if (error) { toast('❌ Erro ao excluir.'); return; }
+    if (error || selErr) {
+      const msg = (error||selErr).message || (error||selErr).code || JSON.stringify(error||selErr);
+      console.error('Delete error:', error, selErr);
+      toast('❌ ' + msg);
+      return;
+    }
   } else {
     projs = projs.filter(p=>p.id!==editId);
     localStorage.setItem('gd_v4', JSON.stringify(projs));
