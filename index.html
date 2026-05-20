@@ -6,7 +6,7 @@
 <title>Victor Germano — Desenvolvedor & Designer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<!-- Firebase: nenhum SDK necessário, usamos REST API puro -->
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -730,15 +730,25 @@ h1{animation:up .65s ease both .18s}
    CONFIG
 ══════════════════════════════════════ */
 const PASS = 'Careca1711@';
-const SUPABASE_URL = 'https://qgjokpntznrjsjmlaogm.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_QBIsYpqbAITPj-5gVGmfJg_ZaHTxQ8y';
+const FIREBASE_URL = 'YOUR_FIREBASE_URL'; // cole aqui a URL do Firebase Realtime Database
 
-let sb = null;
-try {
-  if (SUPABASE_URL !== 'YOUR_SUPABASE_URL') {
-    sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-  }
-} catch(e) { console.warn('Supabase não configurado — modo offline ativo.'); }
+/* ── Firebase REST helpers ── */
+async function fbGet(){
+  if (!FIREBASE_URL || FIREBASE_URL==='YOUR_FIREBASE_URL') return null;
+  try {
+    const r = await fetch(`${FIREBASE_URL}/gd.json`);
+    return r.ok ? ((await r.json()) || {}) : null;
+  } catch { return null; }
+}
+async function fbSet(data){
+  if (!FIREBASE_URL || FIREBASE_URL==='YOUR_FIREBASE_URL') return false;
+  try {
+    const r = await fetch(`${FIREBASE_URL}/gd.json`, {
+      method:'PUT', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data)
+    });
+    return r.ok;
+  } catch { return false; }
+}
 
 const DEFAULTS = [
   {id:'d1',name:'Bolsa Pro',tags:['Fintech','Dashboard','Finanças'],
@@ -821,54 +831,21 @@ async function loadData(){
     catch { toolTags = [...DEFAULT_TOOLS]; }
     return;
   }
-  // Carrega projetos e courses em paralelo
-  const [projRes, courseRes] = await Promise.all([
-    sb.from('projects').select('*').order('created_at', { ascending: false }),
-    sb.from('courses').select('*').order('created_at', { ascending: true })
-  ]);
-  const { data: pData, error: pErr } = projRes;
-  const { data: cData, error: cErr } = courseRes;
-
-  const SENTINELS = ['__skills__','__prompt__','__tools__','__del_proj__','__del_course__'];
-
-  // Listas de IDs excluídos — guardadas em courses como sentinels
-  let deletedProjIds = [], deletedCourseIds = [];
-  if (!cErr && cData) {
-    const dpRow = cData.find(r => r.id === '__del_proj__');
-    const dcRow = cData.find(r => r.id === '__del_course__');
-    try { if (dpRow) deletedProjIds   = JSON.parse(dpRow.name   || '[]'); } catch {}
-    try { if (dcRow) deletedCourseIds = JSON.parse(dcRow.name   || '[]'); } catch {}
-  }
-
-  if (!pErr && pData && pData.length) {
-    projs = pData.filter(r => !deletedProjIds.includes(r.id))
-                 .map(r => ({ id:r.id, name:r.name, tags:r.tags||[], desc:r.description||'', img:r.img||'', link:r.link||'' }));
+  const db = await fbGet();
+  if (db) {
+    projs      = (db.projects  && db.projects.length)  ? db.projects  : clone(DEFAULTS);
+    courses    = (db.courses   && db.courses.length)   ? db.courses   : clone(DEFAULT_COURSES);
+    skills     = (db.skills    && db.skills.length)    ? db.skills    : [...DEFAULT_SKILLS];
+    promptTags = (db.prompt    && db.prompt.length)    ? db.prompt    : [...DEFAULT_PROMPT];
+    toolTags   = (db.tools     && db.tools.length)     ? db.tools     : [...DEFAULT_TOOLS];
+    // Primeira vez: semeia dados padrão
+    if (!db.projects) await fbSet({ projects:projs, courses, skills, prompt:promptTags, tools:toolTags });
   } else {
-    projs = clone(DEFAULTS);
-    for (const p of [...DEFAULTS].reverse()) {
-      await sb.from('projects').upsert({ id:p.id, name:p.name, tags:p.tags, description:p.desc||'', img:p.img||'', link:p.link||'' });
-    }
-  }
-
-  if (!cErr && cData && cData.length) {
-    const skillsRow = cData.find(r => r.id === '__skills__');
-    const promptRow = cData.find(r => r.id === '__prompt__');
-    const toolsRow  = cData.find(r => r.id === '__tools__');
-    if (skillsRow) { try { skills     = JSON.parse(skillsRow.name); } catch { skills     = [...DEFAULT_SKILLS]; } }
-    else { skills = [...DEFAULT_SKILLS]; await sb.from('courses').upsert({ id:'__skills__', name: JSON.stringify(DEFAULT_SKILLS), inst:'__skills__' }); }
-    if (promptRow) { try { promptTags = JSON.parse(promptRow.name); } catch { promptTags = [...DEFAULT_PROMPT]; } }
-    else { promptTags = [...DEFAULT_PROMPT]; await sb.from('courses').upsert({ id:'__prompt__', name: JSON.stringify(DEFAULT_PROMPT), inst:'__prompt__' }); }
-    if (toolsRow)  { try { toolTags   = JSON.parse(toolsRow.name);  } catch { toolTags   = [...DEFAULT_TOOLS];  } }
-    else { toolTags  = [...DEFAULT_TOOLS];  await sb.from('courses').upsert({ id:'__tools__',  name: JSON.stringify(DEFAULT_TOOLS),  inst:'__tools__'  }); }
-    courses = cData.filter(r => !SENTINELS.includes(r.id) && !deletedCourseIds.includes(r.id))
-                   .map(r => ({ id:r.id, name:r.name, inst:r.inst||'' }));
-  } else {
-    courses = clone(DEFAULT_COURSES); skills = [...DEFAULT_SKILLS];
-    promptTags = [...DEFAULT_PROMPT]; toolTags = [...DEFAULT_TOOLS];
-    for (const c of DEFAULT_COURSES) await sb.from('courses').upsert({ id:c.id, name:c.name, inst:c.inst });
-    await sb.from('courses').upsert({ id:'__skills__', name: JSON.stringify(DEFAULT_SKILLS), inst:'__skills__' });
-    await sb.from('courses').upsert({ id:'__prompt__', name: JSON.stringify(DEFAULT_PROMPT), inst:'__prompt__' });
-    await sb.from('courses').upsert({ id:'__tools__',  name: JSON.stringify(DEFAULT_TOOLS),  inst:'__tools__'  });
+    try { const s=localStorage.getItem('gd_v4');       projs      = s ? JSON.parse(s) : clone(DEFAULTS);         } catch { projs      = clone(DEFAULTS);         }
+    try { const c=localStorage.getItem('gd_courses_v1');courses   = c ? JSON.parse(c) : clone(DEFAULT_COURSES);  } catch { courses    = clone(DEFAULT_COURSES);  }
+    try { const k=localStorage.getItem('gd_skills');   skills     = k ? JSON.parse(k) : [...DEFAULT_SKILLS];     } catch { skills     = [...DEFAULT_SKILLS];     }
+    try { const p=localStorage.getItem('gd_prompt');   promptTags = p ? JSON.parse(p) : [...DEFAULT_PROMPT];     } catch { promptTags = [...DEFAULT_PROMPT];     }
+    try { const t=localStorage.getItem('gd_tools');    toolTags   = t ? JSON.parse(t) : [...DEFAULT_TOOLS];      } catch { toolTags   = [...DEFAULT_TOOLS];      }
   }
 }
 
@@ -1302,13 +1279,11 @@ async function saveStack(){
   const btn = document.getElementById('save-btn');
   btn.classList.add('loading');
   btn.innerHTML = '<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Salvando...';
-  const sentinelId = currentStack==='skills' ? '__skills__' : currentStack==='prompt' ? '__prompt__' : '__tools__';
-  if (sb) {
-    const { error } = await sb.from('courses').upsert({ id: sentinelId, name: JSON.stringify(data), inst: sentinelId });
-    if (error) { toast('❌ Erro ao salvar.'); btn.classList.remove('loading'); btn.innerHTML = '<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Salvar Stack'; return; }
-  } else {
-    const lsKey = currentStack==='skills' ? 'gd_skills' : currentStack==='prompt' ? 'gd_prompt' : 'gd_tools';
-    localStorage.setItem(lsKey, JSON.stringify(data));
+  const fieldMap = {skills:'skills',prompt:'prompt',tools:'tools'};
+  const db = await fbGet() || {projects:projs,courses,skills,prompt:promptTags,tools:toolTags};
+  if (!(await fbSet({...db,[fieldMap[currentStack]]:data}))){
+    toast('❌ Erro ao salvar.'); btn.classList.remove('loading');
+    btn.innerHTML = '<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Salvar Stack'; return;
   }
   if (currentStack==='skills') renderSkills();
   else if (currentStack==='prompt') renderPrompt();
@@ -1338,30 +1313,19 @@ async function saveProject(){
     btn.classList.remove('loading');
     btn.innerHTML = '<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Salvar e Publicar';
   };
+  const db = await fbGet() || {projects:projs,courses,skills,prompt:promptTags,tools:toolTags};
   if (editId){
-    if (sb) {
-      const { error } = await sb.from('projects').upsert({ id:editId, name, tags, description:desc, img, link });
-      if (error) { toast('❌ Erro ao salvar.'); resetBtn(); return; }
-    } else {
-      const i = projs.findIndex(p=>p.id===editId);
-      if (i!==-1) projs[i] = {...projs[i], name, tags, desc, img, link};
-      localStorage.setItem('gd_v4', JSON.stringify(projs));
-    }
-    const i = projs.findIndex(p=>p.id===editId);
-    if (i!==-1) projs[i] = {...projs[i], name, tags, desc, img, link};
+    const updProjs = (db.projects||projs).map(p=>p.id===editId?{...p,name,tags,desc,img,link}:p);
+    if (!(await fbSet({...db,projects:updProjs}))){ toast('❌ Erro ao salvar.'); resetBtn(); return; }
+    const i=projs.findIndex(p=>p.id===editId); if(i!==-1) projs[i]={...projs[i],name,tags,desc,img,link};
     render();
-    setTimeout(()=>{ const card = document.querySelector(`.proj[data-id="${editId}"]`); if(card) card.classList.add('active-edit'); }, 50);
+    setTimeout(()=>{ const card=document.querySelector(`.proj[data-id="${editId}"]`); if(card) card.classList.add('active-edit'); },50);
     toast('✓ Projeto atualizado e publicado!');
   } else {
-    const newId = 'p'+Date.now();
-    if (sb) {
-      const { error } = await sb.from('projects').insert({ id:newId, name, tags, description:desc, img, link });
-      if (error) { toast('❌ Erro ao salvar.'); resetBtn(); return; }
-    } else {
-      projs.unshift({id:newId, name, tags, desc, img, link});
-      localStorage.setItem('gd_v4', JSON.stringify(projs));
-    }
-    projs.unshift({id:newId, name, tags, desc, img, link});
+    const newId='p'+Date.now();
+    const updProjs=[{id:newId,name,tags,desc,img,link},...(db.projects||projs)];
+    if (!(await fbSet({...db,projects:updProjs}))){ toast('❌ Erro ao salvar.'); resetBtn(); return; }
+    projs.unshift({id:newId,name,tags,desc,img,link});
     render(); closePanel();
     toast('✓ Projeto adicionado ao portfólio!');
   }
@@ -1376,27 +1340,9 @@ async function confirmDelete(){
   const p = projs.find(p=>p.id===editId);
   if (!p) return;
   if (!confirm(`Excluir "${p.name}" permanentemente?`)) return;
-  if (sb) {
-    // Guarda o ID excluído na lista sentinel em courses (só usa upsert em courses)
-    try {
-      const { data: existing } = await sb.from('courses').select('name').eq('id','__del_proj__').maybeSingle();
-      let ids = [];
-      try { if (existing) ids = JSON.parse(existing.name || '[]'); } catch {}
-      if (!ids.includes(editId)) ids.push(editId);
-      const { error } = await sb.from('courses').upsert({ id:'__del_proj__', name: JSON.stringify(ids), inst:'__del_proj__' });
-      if (error) { toast('❌ Supabase: ' + (error.message || error.code)); return; }
-    } catch(e) {
-      if (e.message && e.message.includes('fetch')) {
-        toast('❌ Banco offline. Acesse supabase.com e reative o projeto.');
-      } else {
-        toast('❌ ' + e.message);
-      }
-      return;
-    }
-  } else {
-    projs = projs.filter(p=>p.id!==editId);
-    localStorage.setItem('gd_v4', JSON.stringify(projs));
-  }
+  const db = await fbGet() || {projects:projs,courses,skills,prompt:promptTags,tools:toolTags};
+  const updProjs = (db.projects||projs).filter(p=>p.id!==editId);
+  if (!(await fbSet({...db,projects:updProjs}))){ toast('❌ Erro ao excluir. Verifique o banco de dados.'); return; }
   projs = projs.filter(p=>p.id!==editId);
   render(); closePanel();
   toast('🗑 Projeto excluído');
@@ -1443,28 +1389,17 @@ async function saveCourse(){
     btn.classList.remove('loading');
     btn.innerHTML = '<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Salvar Curso';
   };
+  const db = await fbGet() || {projects:projs,courses,skills,prompt:promptTags,tools:toolTags};
   if (editCourseId){
-    if (sb) {
-      const { error } = await sb.from('courses').upsert({ id:editCourseId, name, inst });
-      if (error) { toast('❌ Erro ao salvar.'); resetBtn(); return; }
-    } else {
-      const i = courses.findIndex(c=>c.id===editCourseId);
-      if (i!==-1) courses[i] = {...courses[i], name, inst};
-      localStorage.setItem('gd_courses_v1', JSON.stringify(courses));
-    }
-    const i = courses.findIndex(c=>c.id===editCourseId);
-    if (i!==-1) courses[i] = {...courses[i], name, inst};
+    const updCourses=(db.courses||courses).map(c=>c.id===editCourseId?{...c,name,inst}:c);
+    if (!(await fbSet({...db,courses:updCourses}))){ toast('❌ Erro ao salvar.'); resetBtn(); return; }
+    const i=courses.findIndex(c=>c.id===editCourseId); if(i!==-1) courses[i]={...courses[i],name,inst};
     renderCourses(); toast('✓ Curso atualizado!');
   } else {
-    const newId = 'c'+Date.now();
-    if (sb) {
-      const { error } = await sb.from('courses').insert({ id:newId, name, inst });
-      if (error) { toast('❌ Erro ao salvar.'); resetBtn(); return; }
-    } else {
-      courses.push({id:newId, name, inst});
-      localStorage.setItem('gd_courses_v1', JSON.stringify(courses));
-    }
-    courses.push({id:newId, name, inst});
+    const newId='c'+Date.now();
+    const updCourses=[...(db.courses||courses),{id:newId,name,inst}];
+    if (!(await fbSet({...db,courses:updCourses}))){ toast('❌ Erro ao salvar.'); resetBtn(); return; }
+    courses.push({id:newId,name,inst});
     renderCourses(); closePanel(); toast('✓ Curso adicionado à lista!');
   }
   resetBtn();
@@ -1478,18 +1413,10 @@ async function confirmDeleteCourse(){
   const c = courses.find(c=>c.id===editCourseId);
   if (!c) return;
   if (!confirm(`Excluir "${c.name}" permanentemente?`)) return;
-  if (sb) {
-    const { data: existing } = await sb.from('courses').select('name').eq('id','__del_course__').maybeSingle();
-    let ids = [];
-    try { if (existing) ids = JSON.parse(existing.name || '[]'); } catch {}
-    if (!ids.includes(editCourseId)) ids.push(editCourseId);
-    const { error } = await sb.from('courses').upsert({ id:'__del_course__', name: JSON.stringify(ids), inst:'__del_course__' });
-    if (error) { toast('❌ Erro ao excluir.'); return; }
-  } else {
-    courses = courses.filter(c=>c.id!==editCourseId);
-    localStorage.setItem('gd_courses_v1', JSON.stringify(courses));
-  }
-  courses = courses.filter(c=>c.id!==editCourseId);
+  const db = await fbGet() || {projects:projs,courses,skills,prompt:promptTags,tools:toolTags};
+  const updCourses=(db.courses||courses).filter(c=>c.id!==editCourseId);
+  if (!(await fbSet({...db,courses:updCourses}))){ toast('❌ Erro ao excluir.'); return; }
+  courses=courses.filter(c=>c.id!==editCourseId);
   renderCourses(); closePanel(); toast('🗑 Curso excluído');
 }
 
