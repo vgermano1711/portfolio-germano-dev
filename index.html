@@ -823,7 +823,7 @@ async function loadData(){
   }
   const { data: pData, error: pErr } = await sb.from('projects').select('*').order('created_at', { ascending: false });
   if (!pErr && pData && pData.length) {
-    projs = pData.map(r => ({ id:r.id, name:r.name, tags:r.tags||[], desc:r.description||'', img:r.img||'', link:r.link||'' }));
+    projs = pData.filter(r => r.name !== '__deleted__').map(r => ({ id:r.id, name:r.name, tags:r.tags||[], desc:r.description||'', img:r.img||'', link:r.link||'' }));
   } else {
     projs = clone(DEFAULTS);
     const reversed = [...DEFAULTS].slice().reverse();
@@ -843,7 +843,7 @@ async function loadData(){
     else { promptTags = [...DEFAULT_PROMPT]; await sb.from('courses').upsert({ id:'__prompt__', name: JSON.stringify(DEFAULT_PROMPT), inst:'__prompt__' }); }
     if (toolsRow)  { try { toolTags   = JSON.parse(toolsRow.name);  } catch { toolTags   = [...DEFAULT_TOOLS];  } }
     else { toolTags  = [...DEFAULT_TOOLS];  await sb.from('courses').upsert({ id:'__tools__',  name: JSON.stringify(DEFAULT_TOOLS),  inst:'__tools__'  }); }
-    courses = cData.filter(r => !SENTINELS.includes(r.id)).map(r => ({ id:r.id, name:r.name, inst:r.inst||'' }));
+    courses = cData.filter(r => !SENTINELS.includes(r.id) && r.name !== '__deleted__').map(r => ({ id:r.id, name:r.name, inst:r.inst||'' }));
   } else {
     courses    = clone(DEFAULT_COURSES);
     skills     = [...DEFAULT_SKILLS];
@@ -1363,7 +1363,7 @@ async function confirmDelete(){
   if (!p) return;
   if (!confirm(`Excluir "${p.name}" permanentemente?`)) return;
   if (sb) {
-    const { error } = await sb.from('projects').delete().eq('id', editId);
+    const { error } = await sb.from('projects').update({ name: '__deleted__' }).eq('id', editId);
     if (error) { toast('❌ Erro ao excluir.'); return; }
   } else {
     projs = projs.filter(p=>p.id!==editId);
@@ -1451,7 +1451,7 @@ async function confirmDeleteCourse(){
   if (!c) return;
   if (!confirm(`Excluir "${c.name}" permanentemente?`)) return;
   if (sb) {
-    const { error } = await sb.from('courses').delete().eq('id', editCourseId);
+    const { error } = await sb.from('courses').update({ name: '__deleted__' }).eq('id', editCourseId);
     if (error) { toast('❌ Erro ao excluir.'); return; }
   } else {
     courses = courses.filter(c=>c.id!==editCourseId);
