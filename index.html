@@ -167,11 +167,26 @@ body.panel-open #fab-group{right:496px}
 
 /* ── COURSE PANEL ── */
 .ep-tabs.course-mode .tab-project{display:none}
-.ep-tabs.course-mode .tab-skill{display:none}
+.ep-tabs.course-mode .tab-stack{display:none}
 .ep-tabs:not(.course-mode) .tab-course{display:none}
-.ep-tabs.skills-mode .tab-project{display:none}
-.ep-tabs.skills-mode .tab-course{display:none}
-.ep-tabs:not(.skills-mode) .tab-skill{display:none}
+.ep-tabs.stack-mode .tab-project{display:none}
+.ep-tabs.stack-mode .tab-course{display:none}
+.ep-tabs:not(.stack-mode) .tab-stack{display:none}
+/* ── NOVA STACK PANEL ── */
+.stack-subtabs{display:flex;gap:.3rem;margin-bottom:1.2rem;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:8px;padding:.28rem}
+.stack-subtab{flex:1;padding:.4rem .4rem;font-family:var(--title);font-size:.6rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;background:transparent;border:none;color:var(--gray);cursor:pointer;border-radius:5px;transition:all .18s}
+.stack-subtab.on{background:rgba(255,255,255,.09);color:var(--white)}
+.stack-chips{display:flex;flex-wrap:wrap;gap:.4rem;min-height:2rem;margin-bottom:1rem}
+.stack-chip{display:inline-flex;align-items:center;gap:.35rem;background:rgba(255,255,255,.05);border:1px solid var(--border2);border-radius:5px;padding:.24rem .5rem .24rem .62rem;font-family:var(--body);font-size:.76rem;color:var(--white-mid)}
+.stack-chip-del{background:none;border:none;color:var(--gray);cursor:pointer;font-size:.65rem;line-height:1;padding:0 2px;transition:color .15s;display:flex;align-items:center}
+.stack-chip-del:hover{color:var(--red)}
+.stack-add-row{display:flex;gap:.5rem}
+.stack-add-row input{flex:1;background:rgba(255,255,255,.04);border:1px solid var(--border2);border-radius:7px;padding:.55rem .85rem;font-family:var(--body);font-size:.84rem;font-weight:300;color:var(--white);outline:none;transition:border-color .2s}
+.stack-add-row input:focus{border-color:rgba(74,222,128,.35)}
+.stack-add-row input::placeholder{color:#2a2a2a}
+.stack-add-btn{background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.25);border-radius:7px;padding:.55rem .85rem;font-family:var(--title);font-size:.74rem;font-weight:700;color:var(--green);cursor:pointer;transition:all .18s;white-space:nowrap}
+.stack-add-btn:hover{background:rgba(74,222,128,.15);border-color:rgba(74,222,128,.4)}
+.stack-empty{font-family:var(--body);font-size:.78rem;color:var(--gray);padding:.5rem 0}
 /* ── SAAS SUBSECTION ── */
 .saas-sep{display:flex;align-items:center;gap:1rem;margin:3rem 0 1.75rem}
 .saas-sep-line{flex:1;height:1px;background:var(--border)}
@@ -425,7 +440,8 @@ h1{animation:up .65s ease both .18s}
       </div>
       <div class="fade-el delay-2">
         <div class="tg"><div class="tgl">Tech Skills</div><div class="ts" id="skills-list"></div></div>
-        <div class="tg"><div class="tgl">Engenharia de Prompt &amp; IA</div><div class="ts"><span class="tg-tag">Claude</span><span class="tg-tag">Hostinger</span><span class="tg-tag">Lovable</span><span class="tg-tag">Base44</span><span class="tg-tag">Figma</span><span class="tg-tag">Make</span><span class="tg-tag">Stitch</span></div></div>
+        <div class="tg"><div class="tgl">Engenharia de Prompt &amp; IA</div><div class="ts" id="prompt-list"></div></div>
+        <div class="tg"><div class="tgl">Ferramentas</div><div class="ts" id="tools-list"></div></div>
         <div class="tg"><div class="tgl">Soft Skills</div><div class="ts"><span class="tg-tag">Comunicativo</span><span class="tg-tag">Adaptabilidade</span><span class="tg-tag">Pensamento criativo</span><span class="tg-tag">Falar em público</span><span class="tg-tag">Gestão de tempo</span><span class="tg-tag">Autoconfiança</span></div></div>
       </div>
     </div>
@@ -462,9 +478,9 @@ h1{animation:up .65s ease both .18s}
       <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
       Novo Curso
     </button>
-    <button class="fab-item" onclick="openSkillsPanel()">
+    <button class="fab-item" onclick="openStackPanel('skills')">
       <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-      Habilidades
+      Nova Stack
     </button>
     <button class="fab-item" onclick="openNewPanel()">
       <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
@@ -495,7 +511,7 @@ h1{animation:up .65s ease both .18s}
     <button class="ep-tab tab-project" onclick="epTab('danger',this)">🗑 Excluir</button>
     <button class="ep-tab on tab-course" onclick="epTab('curso',this)">📚 Curso</button>
     <button class="ep-tab tab-course" onclick="epTab('danger-curso',this)">🗑 Excluir</button>
-    <button class="ep-tab on tab-skill" onclick="epTab('skills',this)">⚡ Skills</button>
+    <button class="ep-tab on tab-stack" onclick="epTab('stack',this)">🔧 Nova Stack</button>
   </div>
   <div class="ep-preview" id="ep-preview-proj">
     <div class="ep-preview-label">Preview ao vivo</div>
@@ -513,9 +529,9 @@ h1{animation:up .65s ease both .18s}
       <div class="cpv-inst" id="cpv-inst">Instituição</div>
     </div>
   </div>
-  <div class="ep-preview" id="ep-preview-skills" style="display:none">
+  <div class="ep-preview" id="ep-preview-stack" style="display:none">
     <div class="ep-preview-label">Preview ao vivo</div>
-    <div class="ts" id="pv-skills" style="flex-wrap:wrap;gap:.4rem;display:flex"></div>
+    <div class="ts" id="pv-stack" style="flex-wrap:wrap;gap:.4rem;display:flex"></div>
   </div>
   <div class="ep-body">
     <div class="ep-section on" id="sec-edit">
@@ -576,13 +592,18 @@ h1{animation:up .65s ease both .18s}
         <button class="dz-btn" onclick="confirmDeleteCourse()">🗑 Excluir este curso permanentemente</button>
       </div>
     </div>
-    <div class="ep-section" id="sec-skills">
-      <div class="ef">
-        <label>Linguagens &amp; Tecnologias</label>
-        <textarea id="sk-tags" rows="4" placeholder="HTML, CSS, JavaScript, Java, Golang, Python..." oninput="liveUpdateSkills()" style="min-height:100px"></textarea>
-        <div style="font-size:.72rem;color:var(--gray,var(--muted));margin-top:.35rem">Separe cada habilidade por vírgula</div>
+    <div class="ep-section" id="sec-stack">
+      <div class="stack-subtabs">
+        <button class="stack-subtab on" onclick="switchStackSub('skills',this)">Tech Skills</button>
+        <button class="stack-subtab" onclick="switchStackSub('prompt',this)">Eng. Prompt</button>
+        <button class="stack-subtab" onclick="switchStackSub('tools',this)">Ferramentas</button>
       </div>
-      <div class="ef-err" id="sk-err">Adicione pelo menos uma habilidade.</div>
+      <div class="stack-chips" id="stack-chips"></div>
+      <div class="stack-add-row">
+        <input type="text" id="stack-input" placeholder="Ex: TypeScript, Figma..." onkeydown="if(event.key==='Enter'){addStackItem();event.preventDefault()}"/>
+        <button class="stack-add-btn" onclick="addStackItem()">+ Adicionar</button>
+      </div>
+      <div class="ef-err" id="sk-err">Adicione pelo menos um item.</div>
     </div>
   </div>
   <div class="ep-footer">
@@ -745,7 +766,9 @@ const DEFAULT_COURSES = [
   {id:'c5', name:'Python',                             inst:'Gustavo Guanabara'},
   {id:'c6', name:'Banco de dados — Censo Cadastral',   inst:'ENAP'},
 ];
-const DEFAULT_SKILLS = ['HTML','CSS','JavaScript','TypeScript','Python','C#','MySQL'];
+const DEFAULT_SKILLS  = ['HTML','CSS','JavaScript','TypeScript','Python','C#','MySQL'];
+const DEFAULT_PROMPT  = ['Claude','ChatGPT','Lovable','Base44','Make','Stitch','Hostinger'];
+const DEFAULT_TOOLS   = ['Figma','Canva','Notion','Framer','Midjourney','Adobe XD'];
 
 /* ══════════════════════════════════════
    STATE
@@ -754,6 +777,9 @@ let admin        = false;
 let projs        = [];
 let courses      = [];
 let skills       = [];
+let promptTags   = [];
+let toolTags     = [];
+let currentStack = 'skills';
 let editId       = null;
 let editCourseId = null;
 let panelMode    = 'project';
@@ -765,20 +791,18 @@ let imgData      = '';
 ══════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', async () => {
   // Renderiza defaults imediatamente para não mostrar página vazia
-  projs   = JSON.parse(JSON.stringify(DEFAULTS));
-  courses = JSON.parse(JSON.stringify(DEFAULT_COURSES));
-  skills  = [...DEFAULT_SKILLS];
-  render();
-  renderCourses();
-  renderSkills();
+  projs      = JSON.parse(JSON.stringify(DEFAULTS));
+  courses    = JSON.parse(JSON.stringify(DEFAULT_COURSES));
+  skills     = [...DEFAULT_SKILLS];
+  promptTags = [...DEFAULT_PROMPT];
+  toolTags   = [...DEFAULT_TOOLS];
+  render(); renderCourses(); renderSkills(); renderPrompt(); renderTools();
   bindGlobal();
   initParallax();
   initFadeObserver();
   // Depois atualiza com dados reais do Supabase
   await loadData();
-  render();
-  renderCourses();
-  renderSkills();
+  render(); renderCourses(); renderSkills(); renderPrompt(); renderTools();
 });
 
 function clone(x){ return JSON.parse(JSON.stringify(x)); }
@@ -791,6 +815,10 @@ async function loadData(){
     catch { courses = clone(DEFAULT_COURSES); }
     try { const k = localStorage.getItem('gd_skills'); skills = k ? JSON.parse(k) : [...DEFAULT_SKILLS]; }
     catch { skills = [...DEFAULT_SKILLS]; }
+    try { const p = localStorage.getItem('gd_prompt'); promptTags = p ? JSON.parse(p) : [...DEFAULT_PROMPT]; }
+    catch { promptTags = [...DEFAULT_PROMPT]; }
+    try { const t = localStorage.getItem('gd_tools');  toolTags   = t ? JSON.parse(t) : [...DEFAULT_TOOLS]; }
+    catch { toolTags = [...DEFAULT_TOOLS]; }
     return;
   }
   const { data: pData, error: pErr } = await sb.from('projects').select('*').order('created_at', { ascending: false });
@@ -804,18 +832,29 @@ async function loadData(){
     }
   }
   const { data: cData, error: cErr } = await sb.from('courses').select('*').order('created_at', { ascending: true });
+  const SENTINELS = ['__skills__','__prompt__','__tools__'];
   if (!cErr && cData && cData.length) {
-    const skillsRow = cData.find(r => r.id === '__skills__');
-    if (skillsRow) { try { skills = JSON.parse(skillsRow.name); } catch { skills = [...DEFAULT_SKILLS]; } }
+    const skillsRow  = cData.find(r => r.id === '__skills__');
+    const promptRow  = cData.find(r => r.id === '__prompt__');
+    const toolsRow   = cData.find(r => r.id === '__tools__');
+    if (skillsRow) { try { skills     = JSON.parse(skillsRow.name); } catch { skills     = [...DEFAULT_SKILLS]; } }
     else { skills = [...DEFAULT_SKILLS]; await sb.from('courses').upsert({ id:'__skills__', name: JSON.stringify(DEFAULT_SKILLS), inst:'__skills__' }); }
-    courses = cData.filter(r => r.id !== '__skills__').map(r => ({ id:r.id, name:r.name, inst:r.inst||'' }));
+    if (promptRow) { try { promptTags = JSON.parse(promptRow.name); } catch { promptTags = [...DEFAULT_PROMPT]; } }
+    else { promptTags = [...DEFAULT_PROMPT]; await sb.from('courses').upsert({ id:'__prompt__', name: JSON.stringify(DEFAULT_PROMPT), inst:'__prompt__' }); }
+    if (toolsRow)  { try { toolTags   = JSON.parse(toolsRow.name);  } catch { toolTags   = [...DEFAULT_TOOLS];  } }
+    else { toolTags  = [...DEFAULT_TOOLS];  await sb.from('courses').upsert({ id:'__tools__',  name: JSON.stringify(DEFAULT_TOOLS),  inst:'__tools__'  }); }
+    courses = cData.filter(r => !SENTINELS.includes(r.id)).map(r => ({ id:r.id, name:r.name, inst:r.inst||'' }));
   } else {
-    courses = clone(DEFAULT_COURSES);
-    skills  = [...DEFAULT_SKILLS];
+    courses    = clone(DEFAULT_COURSES);
+    skills     = [...DEFAULT_SKILLS];
+    promptTags = [...DEFAULT_PROMPT];
+    toolTags   = [...DEFAULT_TOOLS];
     for (const c of DEFAULT_COURSES) {
       await sb.from('courses').upsert({ id:c.id, name:c.name, inst:c.inst });
     }
     await sb.from('courses').upsert({ id:'__skills__', name: JSON.stringify(DEFAULT_SKILLS), inst:'__skills__' });
+    await sb.from('courses').upsert({ id:'__prompt__', name: JSON.stringify(DEFAULT_PROMPT), inst:'__prompt__' });
+    await sb.from('courses').upsert({ id:'__tools__',  name: JSON.stringify(DEFAULT_TOOLS),  inst:'__tools__'  });
   }
 }
 
@@ -972,6 +1011,14 @@ function renderSkills(){
   const list = document.getElementById('skills-list');
   if (list) list.innerHTML = skills.map(s=>`<span class="tg-tag">${x(s)}</span>`).join('');
 }
+function renderPrompt(){
+  const list = document.getElementById('prompt-list');
+  if (list) list.innerHTML = promptTags.map(s=>`<span class="tg-tag">${x(s)}</span>`).join('');
+}
+function renderTools(){
+  const list = document.getElementById('tools-list');
+  if (list) list.innerHTML = toolTags.map(s=>`<span class="tg-tag">${x(s)}</span>`).join('');
+}
 
 /* ══════════════════════════════════════
    AUTH — double-click logo
@@ -1032,36 +1079,82 @@ function logoutAdmin(){
 function setProjectMode(){
   panelMode = 'project';
   const tabs = document.getElementById('ep-tabs');
-  tabs.classList.remove('course-mode'); tabs.classList.remove('skills-mode');
+  tabs.classList.remove('course-mode'); tabs.classList.remove('stack-mode');
   document.getElementById('ep-preview-proj').style.display = '';
   document.getElementById('ep-preview-curso').style.display = 'none';
-  document.getElementById('ep-preview-skills').style.display = 'none';
+  document.getElementById('ep-preview-stack').style.display = 'none';
 }
 function setCourseMode(){
   panelMode = 'course';
   const tabs = document.getElementById('ep-tabs');
-  tabs.classList.remove('skills-mode'); tabs.classList.add('course-mode');
+  tabs.classList.remove('stack-mode'); tabs.classList.add('course-mode');
   document.getElementById('ep-preview-proj').style.display = 'none';
   document.getElementById('ep-preview-curso').style.display = '';
-  document.getElementById('ep-preview-skills').style.display = 'none';
+  document.getElementById('ep-preview-stack').style.display = 'none';
 }
-function setSkillsMode(){
-  panelMode = 'skills';
+function setStackMode(){
+  panelMode = 'stack';
   const tabs = document.getElementById('ep-tabs');
-  tabs.classList.remove('course-mode'); tabs.classList.add('skills-mode');
+  tabs.classList.remove('course-mode'); tabs.classList.add('stack-mode');
   document.getElementById('ep-preview-proj').style.display = 'none';
   document.getElementById('ep-preview-curso').style.display = 'none';
-  document.getElementById('ep-preview-skills').style.display = '';
+  document.getElementById('ep-preview-stack').style.display = '';
 }
-function openSkillsPanel(){
-  setSkillsMode();
-  document.getElementById('ep-title').textContent    = 'Tech Skills';
-  document.getElementById('ep-subtitle').textContent = 'Linguagens & Tecnologias';
-  document.getElementById('sk-tags').value = skills.join(', ');
+function openStackPanel(sub){
+  sub = sub || 'skills';
+  currentStack = sub;
+  setStackMode();
+  document.getElementById('ep-title').textContent    = 'Nova Stack';
+  document.getElementById('ep-subtitle').textContent = 'Tech Skills · Eng. Prompt · Ferramentas';
   document.getElementById('sk-err').classList.remove('on');
-  liveUpdateSkills();
-  epTab('skills', document.querySelector('.ep-tab.tab-skill'));
+  document.getElementById('stack-input').value = '';
+  document.querySelectorAll('.stack-subtab').forEach(b => b.classList.remove('on'));
+  const subIdx = {skills:0, prompt:1, tools:2}[sub] || 0;
+  const subBtns = document.querySelectorAll('.stack-subtab');
+  if (subBtns[subIdx]) subBtns[subIdx].classList.add('on');
+  renderStackChips();
+  liveUpdateStack();
+  epTab('stack', document.querySelector('.ep-tab.tab-stack'));
   openPanel();
+}
+
+/* ── NOVA STACK helpers ── */
+function getStackData(sub){ return sub==='skills' ? skills : sub==='prompt' ? promptTags : toolTags; }
+function setStackData(sub, arr){ if(sub==='skills') skills=arr; else if(sub==='prompt') promptTags=arr; else toolTags=arr; }
+
+function renderStackChips(){
+  const container = document.getElementById('stack-chips');
+  if (!container) return;
+  const data = getStackData(currentStack);
+  container.innerHTML = data.length
+    ? data.map((item,i)=>`<div class="stack-chip"><span>${x(item)}</span><button class="stack-chip-del" onclick="removeStackItem(${i})" title="Remover">✕</button></div>`).join('')
+    : '<div class="stack-empty">Nenhum item ainda — adicione abaixo.</div>';
+  liveUpdateStack();
+}
+function liveUpdateStack(){
+  const pv = document.getElementById('pv-stack');
+  if (pv) pv.innerHTML = getStackData(currentStack).map(t=>`<span class="tg-tag">${x(t)}</span>`).join('');
+}
+function switchStackSub(sub, btn){
+  document.querySelectorAll('.stack-subtab').forEach(b=>b.classList.remove('on'));
+  if (btn) btn.classList.add('on');
+  currentStack = sub;
+  document.getElementById('stack-input').value = '';
+  renderStackChips();
+}
+function addStackItem(){
+  const inp = document.getElementById('stack-input');
+  const val = inp.value.trim();
+  if (!val) return;
+  const data = [...getStackData(currentStack)];
+  if (!data.map(v=>v.toLowerCase()).includes(val.toLowerCase())){ data.push(val); setStackData(currentStack, data); renderStackChips(); }
+  inp.value = ''; inp.focus();
+}
+function removeStackItem(idx){
+  const data = [...getStackData(currentStack)];
+  data.splice(idx, 1);
+  setStackData(currentStack, data);
+  renderStackChips();
 }
 
 function openPanel(){
@@ -1150,15 +1243,15 @@ function epTab(name, btn){
   document.querySelectorAll('.ep-section').forEach(s=>s.classList.remove('on'));
   if (btn) btn.classList.add('on');
   document.getElementById('sec-'+name).classList.add('on');
-  const showSave = (name === 'edit' || name === 'curso' || name === 'skills');
+  const showSave = (name === 'edit' || name === 'curso' || name === 'stack');
   const saveBtn = document.getElementById('save-btn');
   saveBtn.style.display = showSave ? 'flex' : 'none';
   if (name === 'curso'){
     saveBtn.innerHTML = '<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Salvar Curso';
     saveBtn.onclick = saveCourse;
-  } else if (name === 'skills'){
-    saveBtn.innerHTML = '<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Salvar Habilidades';
-    saveBtn.onclick = saveSkills;
+  } else if (name === 'stack'){
+    saveBtn.innerHTML = '<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Salvar Stack';
+    saveBtn.onclick = saveStack;
   } else {
     saveBtn.innerHTML = '<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Salvar e Publicar';
     saveBtn.onclick = saveProject;
@@ -1183,33 +1276,33 @@ function liveUpdateCurso(){
   document.getElementById('cpv-name').textContent = document.getElementById('ec-name').value || 'Nome do curso';
   document.getElementById('cpv-inst').textContent = document.getElementById('ec-inst').value || 'Instituição';
 }
-function liveUpdateSkills(){
-  const tags = document.getElementById('sk-tags').value.split(',').map(t=>t.trim()).filter(Boolean);
-  document.getElementById('pv-skills').innerHTML = tags.map(t=>`<span class="tg-tag">${x(t)}</span>`).join('');
-}
 
 /* ══════════════════════════════════════
-   SAVE SKILLS
+   SAVE STACK
 ══════════════════════════════════════ */
-async function saveSkills(){
-  const tags = document.getElementById('sk-tags').value.split(',').map(t=>t.trim()).filter(Boolean);
-  const err = document.getElementById('sk-err');
-  if (!tags.length){ err.classList.add('on'); return; }
+async function saveStack(){
+  const data = getStackData(currentStack);
+  const err  = document.getElementById('sk-err');
+  if (!data.length){ err.classList.add('on'); return; }
   err.classList.remove('on');
   const btn = document.getElementById('save-btn');
   btn.classList.add('loading');
   btn.innerHTML = '<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Salvando...';
+  const sentinelId = currentStack==='skills' ? '__skills__' : currentStack==='prompt' ? '__prompt__' : '__tools__';
   if (sb) {
-    const { error } = await sb.from('courses').upsert({ id:'__skills__', name: JSON.stringify(tags), inst:'__skills__' });
-    if (error) { toast('❌ Erro ao salvar.'); btn.classList.remove('loading'); btn.innerHTML = '<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Salvar Habilidades'; return; }
+    const { error } = await sb.from('courses').upsert({ id: sentinelId, name: JSON.stringify(data), inst: sentinelId });
+    if (error) { toast('❌ Erro ao salvar.'); btn.classList.remove('loading'); btn.innerHTML = '<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Salvar Stack'; return; }
   } else {
-    localStorage.setItem('gd_skills', JSON.stringify(tags));
+    const lsKey = currentStack==='skills' ? 'gd_skills' : currentStack==='prompt' ? 'gd_prompt' : 'gd_tools';
+    localStorage.setItem(lsKey, JSON.stringify(data));
   }
-  skills = tags;
-  renderSkills();
-  toast('✓ Habilidades atualizadas!');
+  if (currentStack==='skills') renderSkills();
+  else if (currentStack==='prompt') renderPrompt();
+  else renderTools();
+  const labels = {skills:'Tech Skills', prompt:'Eng. de Prompt', tools:'Ferramentas'};
+  toast(`✓ ${labels[currentStack]} salvos!`);
   btn.classList.remove('loading');
-  btn.innerHTML = '<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Salvar Habilidades';
+  btn.innerHTML = '<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Salvar Stack';
 }
 
 /* ══════════════════════════════════════
