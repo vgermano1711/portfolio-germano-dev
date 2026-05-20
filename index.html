@@ -167,7 +167,28 @@ body.panel-open #fab-group{right:496px}
 
 /* ── COURSE PANEL ── */
 .ep-tabs.course-mode .tab-project{display:none}
+.ep-tabs.course-mode .tab-skill{display:none}
 .ep-tabs:not(.course-mode) .tab-course{display:none}
+.ep-tabs.skills-mode .tab-project{display:none}
+.ep-tabs.skills-mode .tab-course{display:none}
+.ep-tabs:not(.skills-mode) .tab-skill{display:none}
+/* ── SAAS SUBSECTION ── */
+.saas-sep{display:flex;align-items:center;gap:1rem;margin:3rem 0 1.75rem}
+.saas-sep-line{flex:1;height:1px;background:var(--border)}
+.saas-sep-label{font-family:var(--sans,var(--title));font-size:.65rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--muted,var(--gray));white-space:nowrap;display:flex;align-items:center;gap:.5rem}
+.saas-sep-label::before{content:'';width:6px;height:6px;border-radius:50%;background:#818cf8;flex-shrink:0}
+.saas-card{background:var(--card);border:1px solid rgba(129,140,248,.18);border-radius:10px;display:grid;grid-template-columns:3.2rem 1fr auto;overflow:hidden;transition:border-color .25s,background .25s;cursor:pointer;text-decoration:none;color:inherit}
+.saas-card:hover{border-color:rgba(129,140,248,.45);background:rgba(129,140,248,.04)}
+.saas-num{padding:2rem 0 2rem 1.6rem;font-family:var(--title,var(--sans));font-size:.75rem;font-weight:700;color:#818cf8;letter-spacing:.04em;border-right:1px solid rgba(129,140,248,.15);display:flex;align-items:flex-start;padding-top:2.1rem;opacity:.7}
+.saas-body{padding:1.75rem 2rem}
+.saas-tags{display:flex;gap:.35rem;flex-wrap:wrap;margin-bottom:.7rem}
+.saas-tag{font-family:var(--title,var(--sans));font-size:.65rem;font-weight:600;letter-spacing:.06em;padding:.18rem .55rem;border-radius:4px;background:rgba(129,140,248,.07);color:#818cf8;border:1px solid rgba(129,140,248,.2)}
+.saas-title{font-family:var(--title,var(--sans));font-size:1.2rem;font-weight:700;margin-bottom:.5rem;letter-spacing:-.01em;color:var(--white)}
+.saas-desc{font-size:.88rem;color:var(--muted,var(--gray));line-height:1.65;max-width:560px}
+.saas-right{display:flex;flex-direction:column;align-items:flex-end;justify-content:space-between;padding:1.4rem 1.5rem 1.4rem 1rem;gap:.6rem;min-width:fit-content}
+.saas-arrow{color:#818cf8;opacity:.5;transition:color .2s,transform .2s,opacity .2s}
+.saas-card:hover .saas-arrow{opacity:1;transform:translate(2px,-2px)}
+.saas-badge{font-family:var(--title,var(--sans));font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.22rem .65rem;border-radius:100px;background:rgba(129,140,248,.08);border:1px solid rgba(129,140,248,.2);color:#818cf8;white-space:nowrap}
 .course-preview-card{background:var(--card2);border:1px solid var(--border2);border-radius:8px;padding:.9rem 1.1rem}
 .course-preview-card .cpv-name{font-family:var(--title);font-size:.95rem;font-weight:700;color:var(--white);margin-bottom:.25rem}
 .course-preview-card .cpv-inst{font-family:var(--body);font-size:.74rem;color:var(--gray)}
@@ -362,6 +383,28 @@ h1{animation:up .65s ease both .18s}
   <div class="hd fade-el delay-1">Trabalhos Concluídos</div>
   <div class="pl" id="proj-list"></div>
   <p id="proj-empty" style="color:var(--gray);font-size:.86rem;display:none">Nenhum projeto ainda.</p>
+
+  <div class="saas-sep">
+    <div class="saas-sep-line"></div>
+    <div class="saas-sep-label">SaaS</div>
+    <div class="saas-sep-line"></div>
+  </div>
+  <a href="https://gnxgrowth.com.br/" target="_blank" rel="noopener" class="saas-card">
+    <div class="saas-num">001</div>
+    <div class="saas-body">
+      <div class="saas-tags">
+        <span class="saas-tag">SaaS</span>
+        <span class="saas-tag">Growth</span>
+        <span class="saas-tag">Marketing Digital</span>
+      </div>
+      <div class="saas-title">GNX Growth</div>
+      <p class="saas-desc">Plataforma SaaS de growth marketing desenvolvida para o mercado brasileiro. Solução completa para gestão e aceleração de crescimento de negócios digitais.</p>
+    </div>
+    <div class="saas-right">
+      <svg class="saas-arrow" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M7 17L17 7M7 7h10v10"/></svg>
+      <span class="saas-badge">Produto lançado</span>
+    </div>
+  </a>
 </div>
 
 <!-- ABOUT -->
@@ -381,7 +424,7 @@ h1{animation:up .65s ease both .18s}
         </div>
       </div>
       <div class="fade-el delay-2">
-        <div class="tg"><div class="tgl">Tech Skills</div><div class="ts"><span class="tg-tag">HTML</span><span class="tg-tag">CSS</span><span class="tg-tag">JavaScript</span><span class="tg-tag">TypeScript</span><span class="tg-tag">Python</span><span class="tg-tag">C#</span><span class="tg-tag">MySQL</span></div></div>
+        <div class="tg"><div class="tgl">Tech Skills</div><div class="ts" id="skills-list"></div></div>
         <div class="tg"><div class="tgl">Engenharia de Prompt &amp; IA</div><div class="ts"><span class="tg-tag">Claude</span><span class="tg-tag">Hostinger</span><span class="tg-tag">Lovable</span><span class="tg-tag">Base44</span><span class="tg-tag">Figma</span><span class="tg-tag">Make</span><span class="tg-tag">Stitch</span></div></div>
         <div class="tg"><div class="tgl">Soft Skills</div><div class="ts"><span class="tg-tag">Comunicativo</span><span class="tg-tag">Adaptabilidade</span><span class="tg-tag">Pensamento criativo</span><span class="tg-tag">Falar em público</span><span class="tg-tag">Gestão de tempo</span><span class="tg-tag">Autoconfiança</span></div></div>
       </div>
@@ -419,6 +462,10 @@ h1{animation:up .65s ease both .18s}
       <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
       Novo Curso
     </button>
+    <button class="fab-item" onclick="openSkillsPanel()">
+      <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      Habilidades
+    </button>
     <button class="fab-item" onclick="openNewPanel()">
       <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
       Novo Projeto
@@ -448,6 +495,7 @@ h1{animation:up .65s ease both .18s}
     <button class="ep-tab tab-project" onclick="epTab('danger',this)">🗑 Excluir</button>
     <button class="ep-tab on tab-course" onclick="epTab('curso',this)">📚 Curso</button>
     <button class="ep-tab tab-course" onclick="epTab('danger-curso',this)">🗑 Excluir</button>
+    <button class="ep-tab on tab-skill" onclick="epTab('skills',this)">⚡ Skills</button>
   </div>
   <div class="ep-preview" id="ep-preview-proj">
     <div class="ep-preview-label">Preview ao vivo</div>
@@ -464,6 +512,10 @@ h1{animation:up .65s ease both .18s}
       <div class="cpv-name" id="cpv-name">Nome do curso</div>
       <div class="cpv-inst" id="cpv-inst">Instituição</div>
     </div>
+  </div>
+  <div class="ep-preview" id="ep-preview-skills" style="display:none">
+    <div class="ep-preview-label">Preview ao vivo</div>
+    <div class="ts" id="pv-skills" style="flex-wrap:wrap;gap:.4rem;display:flex"></div>
   </div>
   <div class="ep-body">
     <div class="ep-section on" id="sec-edit">
@@ -523,6 +575,14 @@ h1{animation:up .65s ease both .18s}
         <p class="dz-desc">Esta ação é <strong style="color:var(--white)">permanente e irreversível</strong>. O curso será removido imediatamente da lista.</p>
         <button class="dz-btn" onclick="confirmDeleteCourse()">🗑 Excluir este curso permanentemente</button>
       </div>
+    </div>
+    <div class="ep-section" id="sec-skills">
+      <div class="ef">
+        <label>Linguagens &amp; Tecnologias</label>
+        <textarea id="sk-tags" rows="4" placeholder="HTML, CSS, JavaScript, Java, Golang, Python..." oninput="liveUpdateSkills()" style="min-height:100px"></textarea>
+        <div style="font-size:.72rem;color:var(--gray,var(--muted));margin-top:.35rem">Separe cada habilidade por vírgula</div>
+      </div>
+      <div class="ef-err" id="sk-err">Adicione pelo menos uma habilidade.</div>
     </div>
   </div>
   <div class="ep-footer">
@@ -685,6 +745,7 @@ const DEFAULT_COURSES = [
   {id:'c5', name:'Python',                             inst:'Gustavo Guanabara'},
   {id:'c6', name:'Banco de dados — Censo Cadastral',   inst:'ENAP'},
 ];
+const DEFAULT_SKILLS = ['HTML','CSS','JavaScript','TypeScript','Python','C#','MySQL'];
 
 /* ══════════════════════════════════════
    STATE
@@ -692,6 +753,7 @@ const DEFAULT_COURSES = [
 let admin        = false;
 let projs        = [];
 let courses      = [];
+let skills       = [];
 let editId       = null;
 let editCourseId = null;
 let panelMode    = 'project';
@@ -705,6 +767,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   await loadData();
   render();
   renderCourses();
+  renderSkills();
   bindGlobal();
   initParallax();
   initFadeObserver();
@@ -718,6 +781,8 @@ async function loadData(){
     catch { projs = clone(DEFAULTS); }
     try { const c = localStorage.getItem('gd_courses_v1'); courses = c ? JSON.parse(c) : clone(DEFAULT_COURSES); }
     catch { courses = clone(DEFAULT_COURSES); }
+    try { const k = localStorage.getItem('gd_skills'); skills = k ? JSON.parse(k) : [...DEFAULT_SKILLS]; }
+    catch { skills = [...DEFAULT_SKILLS]; }
     return;
   }
   const { data: pData, error: pErr } = await sb.from('projects').select('*').order('created_at', { ascending: false });
@@ -732,12 +797,17 @@ async function loadData(){
   }
   const { data: cData, error: cErr } = await sb.from('courses').select('*').order('created_at', { ascending: true });
   if (!cErr && cData && cData.length) {
-    courses = cData.map(r => ({ id:r.id, name:r.name, inst:r.inst||'' }));
+    const skillsRow = cData.find(r => r.id === '__skills__');
+    if (skillsRow) { try { skills = JSON.parse(skillsRow.name); } catch { skills = [...DEFAULT_SKILLS]; } }
+    else { skills = [...DEFAULT_SKILLS]; await sb.from('courses').upsert({ id:'__skills__', name: JSON.stringify(DEFAULT_SKILLS), inst:'__skills__' }); }
+    courses = cData.filter(r => r.id !== '__skills__').map(r => ({ id:r.id, name:r.name, inst:r.inst||'' }));
   } else {
     courses = clone(DEFAULT_COURSES);
+    skills  = [...DEFAULT_SKILLS];
     for (const c of DEFAULT_COURSES) {
       await sb.from('courses').upsert({ id:c.id, name:c.name, inst:c.inst });
     }
+    await sb.from('courses').upsert({ id:'__skills__', name: JSON.stringify(DEFAULT_SKILLS), inst:'__skills__' });
   }
 }
 
@@ -888,6 +958,14 @@ function renderCourses(){
 }
 
 /* ══════════════════════════════════════
+   RENDER SKILLS
+══════════════════════════════════════ */
+function renderSkills(){
+  const list = document.getElementById('skills-list');
+  if (list) list.innerHTML = skills.map(s=>`<span class="tg-tag">${x(s)}</span>`).join('');
+}
+
+/* ══════════════════════════════════════
    AUTH — double-click logo
 ══════════════════════════════════════ */
 function bindGlobal(){
@@ -945,15 +1023,37 @@ function logoutAdmin(){
 ══════════════════════════════════════ */
 function setProjectMode(){
   panelMode = 'project';
-  document.getElementById('ep-tabs').classList.remove('course-mode');
+  const tabs = document.getElementById('ep-tabs');
+  tabs.classList.remove('course-mode'); tabs.classList.remove('skills-mode');
   document.getElementById('ep-preview-proj').style.display = '';
   document.getElementById('ep-preview-curso').style.display = 'none';
+  document.getElementById('ep-preview-skills').style.display = 'none';
 }
 function setCourseMode(){
   panelMode = 'course';
-  document.getElementById('ep-tabs').classList.add('course-mode');
+  const tabs = document.getElementById('ep-tabs');
+  tabs.classList.remove('skills-mode'); tabs.classList.add('course-mode');
   document.getElementById('ep-preview-proj').style.display = 'none';
   document.getElementById('ep-preview-curso').style.display = '';
+  document.getElementById('ep-preview-skills').style.display = 'none';
+}
+function setSkillsMode(){
+  panelMode = 'skills';
+  const tabs = document.getElementById('ep-tabs');
+  tabs.classList.remove('course-mode'); tabs.classList.add('skills-mode');
+  document.getElementById('ep-preview-proj').style.display = 'none';
+  document.getElementById('ep-preview-curso').style.display = 'none';
+  document.getElementById('ep-preview-skills').style.display = '';
+}
+function openSkillsPanel(){
+  setSkillsMode();
+  document.getElementById('ep-title').textContent    = 'Tech Skills';
+  document.getElementById('ep-subtitle').textContent = 'Linguagens & Tecnologias';
+  document.getElementById('sk-tags').value = skills.join(', ');
+  document.getElementById('sk-err').classList.remove('on');
+  liveUpdateSkills();
+  epTab('skills', document.querySelector('.ep-tab.tab-skill'));
+  openPanel();
 }
 
 function openPanel(){
@@ -1042,12 +1142,15 @@ function epTab(name, btn){
   document.querySelectorAll('.ep-section').forEach(s=>s.classList.remove('on'));
   if (btn) btn.classList.add('on');
   document.getElementById('sec-'+name).classList.add('on');
-  const showSave = (name === 'edit' || name === 'curso');
+  const showSave = (name === 'edit' || name === 'curso' || name === 'skills');
   const saveBtn = document.getElementById('save-btn');
   saveBtn.style.display = showSave ? 'flex' : 'none';
   if (name === 'curso'){
     saveBtn.innerHTML = '<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Salvar Curso';
     saveBtn.onclick = saveCourse;
+  } else if (name === 'skills'){
+    saveBtn.innerHTML = '<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Salvar Habilidades';
+    saveBtn.onclick = saveSkills;
   } else {
     saveBtn.innerHTML = '<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Salvar e Publicar';
     saveBtn.onclick = saveProject;
@@ -1071,6 +1174,34 @@ function liveUpdate(){
 function liveUpdateCurso(){
   document.getElementById('cpv-name').textContent = document.getElementById('ec-name').value || 'Nome do curso';
   document.getElementById('cpv-inst').textContent = document.getElementById('ec-inst').value || 'Instituição';
+}
+function liveUpdateSkills(){
+  const tags = document.getElementById('sk-tags').value.split(',').map(t=>t.trim()).filter(Boolean);
+  document.getElementById('pv-skills').innerHTML = tags.map(t=>`<span class="tg-tag">${x(t)}</span>`).join('');
+}
+
+/* ══════════════════════════════════════
+   SAVE SKILLS
+══════════════════════════════════════ */
+async function saveSkills(){
+  const tags = document.getElementById('sk-tags').value.split(',').map(t=>t.trim()).filter(Boolean);
+  const err = document.getElementById('sk-err');
+  if (!tags.length){ err.classList.add('on'); return; }
+  err.classList.remove('on');
+  const btn = document.getElementById('save-btn');
+  btn.classList.add('loading');
+  btn.innerHTML = '<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Salvando...';
+  if (sb) {
+    const { error } = await sb.from('courses').upsert({ id:'__skills__', name: JSON.stringify(tags), inst:'__skills__' });
+    if (error) { toast('❌ Erro ao salvar.'); btn.classList.remove('loading'); btn.innerHTML = '<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Salvar Habilidades'; return; }
+  } else {
+    localStorage.setItem('gd_skills', JSON.stringify(tags));
+  }
+  skills = tags;
+  renderSkills();
+  toast('✓ Habilidades atualizadas!');
+  btn.classList.remove('loading');
+  btn.innerHTML = '<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Salvar Habilidades';
 }
 
 /* ══════════════════════════════════════
