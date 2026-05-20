@@ -153,3 +153,4 @@ GitHub push → Netlify detecta → Build automático → Site atualizado
 Feito com 💻 e ☕ por **Victor Germano** — São Paulo, Brasil
 
 </div>
+
