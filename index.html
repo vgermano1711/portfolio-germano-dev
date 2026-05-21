@@ -809,16 +809,21 @@ const DEFAULTS = [
 ];
 
 const DEFAULT_COURSES = [
-  {id:'c1', name:'DevWeb Art com Integração em IA',    inst:'Gustavo Campelo'},
-  {id:'c2', name:'Figma na prática: Protótipo com IA', inst:'EBAC'},
-  {id:'c3', name:'Maximizar a IA no seu negócio',      inst:'Santander Open Academy'},
-  {id:'c4', name:'Lógica de Programação',              inst:'SENAI'},
-  {id:'c5', name:'Python',                             inst:'Gustavo Guanabara'},
-  {id:'c6', name:'Banco de dados — Censo Cadastral',   inst:'ENAP'},
+  {id:'c1',  name:'Lógica de Programação: Algoritmos',          inst:'SENAI'},
+  {id:'c2',  name:'Lógica de Programação: Tipos de Dados',      inst:'SENAI'},
+  {id:'c3',  name:'Tecnologia e Comunicação',                   inst:'SENAI'},
+  {id:'c4',  name:'Desenvolvimento Web com Integração em IA',   inst:'Gustavo Campelo'},
+  {id:'c5',  name:'Python do Zero',                             inst:'Gustavo Guanabara'},
+  {id:'c6',  name:'Figma na Prática: Prototipagem com IA',      inst:'EBAC'},
+  {id:'c7',  name:'Banco de Dados – Censo Cadastral Previdenciário', inst:'ENAP'},
+  {id:'c8',  name:'Maximizar a IA no seu Negócio',              inst:'Santander Open Academy'},
+  {id:'c9',  name:'Domine a IA com Gemini',                     inst:'Santander Open Academy / Google Gemini'},
+  {id:'c10', name:'Imersão Inteligência Artificial na Prática', inst:'DAXUS'},
+  {id:'c11', name:'Claude 101',                                 inst:'Anthropic'},
 ];
-const DEFAULT_SKILLS  = ['HTML','CSS','JavaScript','TypeScript','Python','C#','MySQL'];
-const DEFAULT_PROMPT  = ['Claude','ChatGPT','Lovable','Base44','Make','Stitch','Hostinger'];
-const DEFAULT_TOOLS   = ['Figma','Canva','Notion','Framer','Midjourney','Adobe XD'];
+const DEFAULT_SKILLS  = ['HTML','CSS','JavaScript','TypeScript','Angular','React','Python','C#','C','AWS','MySQL','Oracle'];
+const DEFAULT_PROMPT  = ['Lovable','Base44','Stitch','Figma Make','Claude Code','Bolt.AI','Replit','N8N'];
+const DEFAULT_TOOLS   = ['Figma','Pacote Office','Canva','Claude Design','Krea.AI','Runway ML','IdeaMap.AI','Gamma'];
 
 /* ══════════════════════════════════════
    STATE
@@ -1097,6 +1102,7 @@ function doLogin(){
       toast('⚠️ Firebase offline — veja o painel acima');
     } else {
       toast('Modo admin ativado ✓');
+      syncCVToFirebase();
     }
   } else {
     err.classList.add('on');
@@ -1521,14 +1527,51 @@ function copyFbRules(){
 async function forceSeedFirebase(){
   const btn = document.getElementById('fbb-migrate-btn');
   if (btn){ btn.textContent='Migrando...'; btn.style.opacity='.55'; btn.style.pointerEvents='none'; }
-  const ok = await fbSet({ initialized:true, projects:projs, courses, skills, prompt:promptTags, tools:toolTags });
+  const current = await fbGet();
+  const existingProjs = (current && current.projects && current.projects.length) ? current.projects : projs;
+  const ok = await fbSet({
+    initialized: true,
+    projects: existingProjs,
+    courses:  clone(DEFAULT_COURSES),
+    skills:   [...DEFAULT_SKILLS],
+    prompt:   [...DEFAULT_PROMPT],
+    tools:    [...DEFAULT_TOOLS]
+  });
   if (ok){
     fbOnline = true;
+    courses    = clone(DEFAULT_COURSES);
+    skills     = [...DEFAULT_SKILLS];
+    promptTags = [...DEFAULT_PROMPT];
+    toolTags   = [...DEFAULT_TOOLS];
     hideFbBanner();
+    renderCourses(); renderSkills(); renderPrompt(); renderTools();
     toast('✓ Todos os dados migrados para o Firebase com sucesso!');
   } else {
     if (btn){ btn.textContent='⚡ Migrar dados agora'; btn.style.opacity=''; btn.style.pointerEvents=''; }
     toast('❌ Firebase ainda offline — aplique as regras primeiro.');
+  }
+}
+
+async function syncCVToFirebase(){
+  const db = await fbGet();
+  if (!db) return;
+  // Sincroniza se o banco não tiver os cursos mais recentes do CV (verifica c11 = Claude 101)
+  const needsSync = !db.courses || !db.courses.some(c => c.id === 'c11');
+  if (!needsSync) return;
+  const ok = await fbSet({
+    ...db,
+    courses:  clone(DEFAULT_COURSES),
+    skills:   [...DEFAULT_SKILLS],
+    prompt:   [...DEFAULT_PROMPT],
+    tools:    [...DEFAULT_TOOLS]
+  });
+  if (ok){
+    courses    = clone(DEFAULT_COURSES);
+    skills     = [...DEFAULT_SKILLS];
+    promptTags = [...DEFAULT_PROMPT];
+    toolTags   = [...DEFAULT_TOOLS];
+    renderCourses(); renderSkills(); renderPrompt(); renderTools();
+    toast('✓ Stack e cursos sincronizados do CV!');
   }
 }
 
