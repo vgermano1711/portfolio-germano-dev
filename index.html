@@ -862,19 +862,28 @@ async function loadData(){
   const db = await fbGet();
   if (db) {
     fbOnline = true;
-    projs      = (db.projects  && db.projects.length)  ? db.projects  : clone(DEFAULTS);
-    courses    = (db.courses   && db.courses.length)   ? db.courses   : clone(DEFAULT_COURSES);
-    skills     = (db.skills    && db.skills.length)    ? db.skills    : [...DEFAULT_SKILLS];
-    promptTags = (db.prompt    && db.prompt.length)    ? db.prompt    : [...DEFAULT_PROMPT];
-    toolTags   = (db.tools     && db.tools.length)     ? db.tools     : [...DEFAULT_TOOLS];
-    if (!db.projects) {
+    // initialized=true significa que o Firebase já foi semeado ao menos uma vez.
+    // Sem essa flag, arrays vazios (ex: todos os projetos excluídos) cairiam nos defaults.
+    const initialized = db.initialized || (db.projects && db.projects.length > 0);
+    if (initialized) {
+      projs      = db.projects  != null ? db.projects  : [];
+      courses    = db.courses   != null ? db.courses   : clone(DEFAULT_COURSES);
+      skills     = db.skills    != null ? db.skills    : [...DEFAULT_SKILLS];
+      promptTags = db.prompt    != null ? db.prompt    : [...DEFAULT_PROMPT];
+      toolTags   = db.tools     != null ? db.tools     : [...DEFAULT_TOOLS];
+    } else {
       // Primeira carga: prefere dados do localStorage (edições salvas) antes dos defaults
+      projs      = clone(DEFAULTS);
+      courses    = clone(DEFAULT_COURSES);
+      skills     = [...DEFAULT_SKILLS];
+      promptTags = [...DEFAULT_PROMPT];
+      toolTags   = [...DEFAULT_TOOLS];
       try { const s=localStorage.getItem('gd_v4');        if(s) projs      = JSON.parse(s); } catch {}
       try { const c=localStorage.getItem('gd_courses_v1');if(c) courses    = JSON.parse(c); } catch {}
       try { const k=localStorage.getItem('gd_skills');    if(k) skills     = JSON.parse(k); } catch {}
       try { const p=localStorage.getItem('gd_prompt');    if(p) promptTags = JSON.parse(p); } catch {}
       try { const t=localStorage.getItem('gd_tools');     if(t) toolTags   = JSON.parse(t); } catch {}
-      await fbSet({ projects:projs, courses, skills, prompt:promptTags, tools:toolTags });
+      await fbSet({ initialized:true, projects:projs, courses, skills, prompt:promptTags, tools:toolTags });
     }
   } else {
     try { const s=localStorage.getItem('gd_v4');       projs      = s ? JSON.parse(s) : clone(DEFAULTS);         } catch { projs      = clone(DEFAULTS);         }
@@ -1512,7 +1521,7 @@ function copyFbRules(){
 async function forceSeedFirebase(){
   const btn = document.getElementById('fbb-migrate-btn');
   if (btn){ btn.textContent='Migrando...'; btn.style.opacity='.55'; btn.style.pointerEvents='none'; }
-  const ok = await fbSet({ projects:projs, courses, skills, prompt:promptTags, tools:toolTags });
+  const ok = await fbSet({ initialized:true, projects:projs, courses, skills, prompt:promptTags, tools:toolTags });
   if (ok){
     fbOnline = true;
     hideFbBanner();
