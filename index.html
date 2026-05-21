@@ -351,6 +351,26 @@ h1{animation:up .65s ease both .18s}
 .hero-sub{animation:up .65s ease both .32s}
 .hero-actions{animation:up .65s ease both .44s}
 .hero-scroll{animation:up .65s ease both .6s}
+
+/* ── FIREBASE SETUP BANNER ── */
+#fb-setup-banner{position:fixed;top:65px;left:0;right:0;z-index:90;background:#110900;border-bottom:1px solid rgba(251,146,60,.2);padding:.85rem 3rem;display:none;align-items:flex-start;gap:1.25rem;flex-wrap:wrap}
+#fb-setup-banner.on{display:flex}
+body.panel-open #fb-setup-banner{right:480px}
+.fbb-info{flex:0 0 auto;min-width:160px}
+.fbb-title{font-family:var(--title);font-size:.72rem;font-weight:700;color:#fb923c;margin-bottom:.2rem}
+.fbb-sub{font-family:var(--body);font-size:.72rem;color:var(--gray);line-height:1.5;max-width:200px}
+.fbb-code{background:#0a0a0a;border:1px solid rgba(251,146,60,.15);border-radius:7px;padding:.6rem .85rem;font-family:monospace;font-size:.7rem;color:#ccc;line-height:1.7;white-space:pre;flex:2;min-width:250px;max-width:360px}
+.fbb-acts{display:flex;flex-direction:column;gap:.4rem;flex-shrink:0}
+.fbb-btn{font-family:var(--title);font-size:.68rem;font-weight:700;letter-spacing:.05em;padding:.42rem .85rem;border-radius:6px;cursor:pointer;white-space:nowrap;transition:all .18s;text-align:center;display:block;text-decoration:none;border:none}
+.fbb-o{background:rgba(251,146,60,.08);border:1px solid rgba(251,146,60,.25)!important;color:#fb923c}
+.fbb-o:hover{background:rgba(251,146,60,.18)}
+.fbb-w{background:var(--white);color:var(--bg)}
+.fbb-w:hover{opacity:.88}
+.fbb-g{background:transparent;border:1px solid var(--border2)!important;color:var(--gray)}
+.fbb-g:hover{border-color:rgba(255,255,255,.22)!important;color:var(--white)}
+.fbb-close{background:none;border:none!important;color:var(--gray-dark);cursor:pointer;font-size:1rem;padding:.1rem .35rem;flex-shrink:0;align-self:flex-start;transition:color .15s;margin-left:auto}
+.fbb-close:hover{color:var(--white)}
+@media(max-width:768px){#fb-setup-banner{top:auto;position:relative;flex-direction:column}.fbb-code{max-width:100%}}
 </style>
 </head>
 <body>
@@ -372,6 +392,26 @@ h1{animation:up .65s ease both .18s}
     <a href="#contato" class="nav-cta">Entrar em contato</a>
   </div>
 </nav>
+
+<!-- FIREBASE SETUP BANNER (admin only — aparece quando Firebase está offline) -->
+<div id="fb-setup-banner">
+  <div class="fbb-info">
+    <div class="fbb-title">⚠ Firebase offline</div>
+    <div class="fbb-sub">Aplique as regras abaixo no Console para ativar o banco permanente.</div>
+  </div>
+  <pre class="fbb-code">{
+  "rules": {
+    ".read": "now &lt; 1781665200000",
+    ".write": "now &lt; 1781665200000"
+  }
+}</pre>
+  <div class="fbb-acts">
+    <button class="fbb-btn fbb-o" onclick="copyFbRules()">📋 Copiar Regras</button>
+    <a href="https://console.firebase.google.com/project/portfolio-germano-dev/database/portfolio-germano-dev-default-rtdb/rules" target="_blank" class="fbb-btn fbb-g">🔗 Firebase Console</a>
+    <button class="fbb-btn fbb-w" id="fbb-migrate-btn" onclick="forceSeedFirebase()">⚡ Migrar dados agora</button>
+  </div>
+  <button class="fbb-close" onclick="hideFbBanner()" title="Fechar">✕</button>
+</div>
 
 <!-- HERO -->
 <section id="hero">
@@ -784,6 +824,7 @@ const DEFAULT_TOOLS   = ['Figma','Canva','Notion','Framer','Midjourney','Adobe X
    STATE
 ══════════════════════════════════════ */
 let admin        = false;
+let fbOnline     = false;
 let projs        = [];
 let courses      = [];
 let skills       = [];
@@ -820,13 +861,21 @@ function clone(x){ return JSON.parse(JSON.stringify(x)); }
 async function loadData(){
   const db = await fbGet();
   if (db) {
+    fbOnline = true;
     projs      = (db.projects  && db.projects.length)  ? db.projects  : clone(DEFAULTS);
     courses    = (db.courses   && db.courses.length)   ? db.courses   : clone(DEFAULT_COURSES);
     skills     = (db.skills    && db.skills.length)    ? db.skills    : [...DEFAULT_SKILLS];
     promptTags = (db.prompt    && db.prompt.length)    ? db.prompt    : [...DEFAULT_PROMPT];
     toolTags   = (db.tools     && db.tools.length)     ? db.tools     : [...DEFAULT_TOOLS];
-    // Primeira vez: semeia dados padrão
-    if (!db.projects) await fbSet({ projects:projs, courses, skills, prompt:promptTags, tools:toolTags });
+    if (!db.projects) {
+      // Primeira carga: prefere dados do localStorage (edições salvas) antes dos defaults
+      try { const s=localStorage.getItem('gd_v4');        if(s) projs      = JSON.parse(s); } catch {}
+      try { const c=localStorage.getItem('gd_courses_v1');if(c) courses    = JSON.parse(c); } catch {}
+      try { const k=localStorage.getItem('gd_skills');    if(k) skills     = JSON.parse(k); } catch {}
+      try { const p=localStorage.getItem('gd_prompt');    if(p) promptTags = JSON.parse(p); } catch {}
+      try { const t=localStorage.getItem('gd_tools');     if(t) toolTags   = JSON.parse(t); } catch {}
+      await fbSet({ projects:projs, courses, skills, prompt:promptTags, tools:toolTags });
+    }
   } else {
     try { const s=localStorage.getItem('gd_v4');       projs      = s ? JSON.parse(s) : clone(DEFAULTS);         } catch { projs      = clone(DEFAULTS);         }
     try { const c=localStorage.getItem('gd_courses_v1');courses   = c ? JSON.parse(c) : clone(DEFAULT_COURSES);  } catch { courses    = clone(DEFAULT_COURSES);  }
@@ -1034,7 +1083,12 @@ function doLogin(){
     document.getElementById('fab-group').classList.add('on');
     document.getElementById('admin-badge').classList.add('on');
     render(); renderCourses();
-    toast('Modo admin ativado ✓');
+    if (!fbOnline) {
+      document.getElementById('fb-setup-banner').classList.add('on');
+      toast('⚠️ Firebase offline — veja o painel acima');
+    } else {
+      toast('Modo admin ativado ✓');
+    }
   } else {
     err.classList.add('on');
     document.getElementById('pw').select();
@@ -1047,6 +1101,7 @@ function logoutAdmin(){
   document.getElementById('fab-group').classList.remove('on');
   closeFabMenu();
   document.getElementById('admin-badge').classList.remove('on');
+  hideFbBanner();
   render(); renderCourses();
   toast('Sessão encerrada');
 }
@@ -1440,6 +1495,32 @@ function openOv(id){
 function closeOv(id){
   document.getElementById(id).classList.remove('open');
   document.body.style.overflow = '';
+}
+
+/* ══════════════════════════════════════
+   FIREBASE SETUP HELPERS
+══════════════════════════════════════ */
+function hideFbBanner(){ document.getElementById('fb-setup-banner').classList.remove('on'); }
+
+function copyFbRules(){
+  const rules = '{\n  "rules": {\n    ".read": "now < 1781665200000",\n    ".write": "now < 1781665200000"\n  }\n}';
+  navigator.clipboard.writeText(rules)
+    .then(()=>toast('✓ Regras copiadas! Cole no Firebase Console → Publicar'))
+    .catch(()=>toast('Copie o código manualmente no painel acima'));
+}
+
+async function forceSeedFirebase(){
+  const btn = document.getElementById('fbb-migrate-btn');
+  if (btn){ btn.textContent='Migrando...'; btn.style.opacity='.55'; btn.style.pointerEvents='none'; }
+  const ok = await fbSet({ projects:projs, courses, skills, prompt:promptTags, tools:toolTags });
+  if (ok){
+    fbOnline = true;
+    hideFbBanner();
+    toast('✓ Todos os dados migrados para o Firebase com sucesso!');
+  } else {
+    if (btn){ btn.textContent='⚡ Migrar dados agora'; btn.style.opacity=''; btn.style.pointerEvents=''; }
+    toast('❌ Firebase ainda offline — aplique as regras primeiro.');
+  }
 }
 
 /* ══════════════════════════════════════
