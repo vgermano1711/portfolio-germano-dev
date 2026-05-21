@@ -818,19 +818,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 function clone(x){ return JSON.parse(JSON.stringify(x)); }
 
 async function loadData(){
-  if (!sb) {
-    try { const s = localStorage.getItem('gd_v4');  projs   = s ? JSON.parse(s) : clone(DEFAULTS); }
-    catch { projs = clone(DEFAULTS); }
-    try { const c = localStorage.getItem('gd_courses_v1'); courses = c ? JSON.parse(c) : clone(DEFAULT_COURSES); }
-    catch { courses = clone(DEFAULT_COURSES); }
-    try { const k = localStorage.getItem('gd_skills'); skills = k ? JSON.parse(k) : [...DEFAULT_SKILLS]; }
-    catch { skills = [...DEFAULT_SKILLS]; }
-    try { const p = localStorage.getItem('gd_prompt'); promptTags = p ? JSON.parse(p) : [...DEFAULT_PROMPT]; }
-    catch { promptTags = [...DEFAULT_PROMPT]; }
-    try { const t = localStorage.getItem('gd_tools');  toolTags   = t ? JSON.parse(t) : [...DEFAULT_TOOLS]; }
-    catch { toolTags = [...DEFAULT_TOOLS]; }
-    return;
-  }
   const db = await fbGet();
   if (db) {
     projs      = (db.projects  && db.projects.length)  ? db.projects  : clone(DEFAULTS);
