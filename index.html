@@ -207,8 +207,8 @@ body.panel-open #fab-group{right:496px}
 .course-preview-card{background:var(--card2);border:1px solid var(--border2);border-radius:8px;padding:.9rem 1.1rem}
 .course-preview-card .cpv-name{font-family:var(--title);font-size:.95rem;font-weight:700;color:var(--white);margin-bottom:.25rem}
 .course-preview-card .cpv-inst{font-family:var(--body);font-size:.74rem;color:var(--gray)}
-#curso-list .cl-item{font-family:var(--body);font-size:.84rem;font-weight:300;color:var(--gray);padding:.55rem 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
-#curso-list .cl-item span{color:#444;font-size:.74rem}
+#curso-list .cl-item{font-family:var(--body);font-size:.84rem;font-weight:400;color:var(--white-mid);padding:.55rem 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:1rem}
+#curso-list .cl-item span{color:var(--gray);font-size:.74rem}
 .cl-adm-btns{display:none;gap:.3rem}
 .cl-adm-btns.on{display:flex}
 .cl-ab{font-family:var(--title);font-size:.58rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:.2rem .5rem;border-radius:4px;border:1px solid var(--border2);background:transparent;color:var(--gray);cursor:pointer;transition:all .15s}
@@ -696,8 +696,8 @@ body.panel-open #fb-setup-banner{right:480px}
       <p class="demo-text">Cada projeto é construído do zero — sem templates genéricos. Do design à entrega, com foco em performance e identidade visual.</p>
       <div class="demo-proj-list">
         <div class="demo-proj-item">
-          <div class="demo-proj-name">Bolsa Pro</div>
-          <div class="demo-proj-tags">Fintech · Dashboard · Finanças</div>
+          <div class="demo-proj-name">Automação de Leads</div>
+          <div class="demo-proj-tags">Automação · Make · CRM</div>
         </div>
         <div class="demo-proj-item">
           <div class="demo-proj-name">Academia Agits</div>
@@ -771,6 +771,7 @@ body.panel-open #fb-setup-banner{right:480px}
 ══════════════════════════════════════ */
 const PASS = 'Careca1711@';
 const FIREBASE_URL = 'https://portfolio-germano-dev-default-rtdb.firebaseio.com';
+const DATA_VERSION = 2;
 
 /* ── Firebase REST helpers ── */
 async function fbGet(){
@@ -791,9 +792,9 @@ async function fbSet(data){
 }
 
 const DEFAULTS = [
-  {id:'d1',name:'Bolsa Pro',tags:['Fintech','Dashboard','Finanças'],
-   desc:'Plataforma de controle financeiro pessoal com dashboard interativo, integração bancária e relatórios visuais. Design dark moderno com foco em usabilidade.',
-   img:'',link:'https://bolsoproo.netlify.app/'},
+  {id:'d1',name:'Automação de Leads',tags:['Automação','Make','CRM'],
+   desc:'Fluxo de automação completo para captação e nutrição de leads com Make. Integração com CRM, disparo de e-mails e notificações automáticas por WhatsApp.',
+   img:'',link:''},
   {id:'d2',name:'Academia Agits',tags:['Institucional','UI/UX','Conversão'],
    desc:'Site institucional para academia com foco em conversão e apresentação de serviços. Experiência clara, objetiva e orientada a resultados.',
    img:'',link:'https://academiaagits.com.br/'},
@@ -869,8 +870,15 @@ async function loadData(){
     fbOnline = true;
     // initialized=true significa que o Firebase já foi semeado ao menos uma vez.
     // Sem essa flag, arrays vazios (ex: todos os projetos excluídos) cairiam nos defaults.
+    const needsReset = db.version !== DATA_VERSION ||
+      (db.projects && db.projects.some(p => p.name === 'Bolsa Pro'));
+    if (needsReset) {
+      projs = clone(DEFAULTS); courses = clone(DEFAULT_COURSES);
+      skills = [...DEFAULT_SKILLS]; promptTags = [...DEFAULT_PROMPT]; toolTags = [...DEFAULT_TOOLS];
+      await fbSet({ version:DATA_VERSION, initialized:true, projects:projs, courses, skills, prompt:promptTags, tools:toolTags });
+    }
     const initialized = db.initialized || (db.projects && db.projects.length > 0);
-    if (initialized) {
+    if (initialized && !needsReset) {
       projs      = db.projects  != null ? db.projects  : [];
       courses    = db.courses   != null ? db.courses   : clone(DEFAULT_COURSES);
       skills     = db.skills    != null ? db.skills    : [...DEFAULT_SKILLS];
