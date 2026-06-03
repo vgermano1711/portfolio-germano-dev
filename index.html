@@ -771,7 +771,7 @@ body.panel-open #fb-setup-banner{right:480px}
 ══════════════════════════════════════ */
 const PASS = 'Careca1711@';
 const FIREBASE_URL = 'https://portfolio-germano-dev-default-rtdb.firebaseio.com';
-const DATA_VERSION = 2;
+const DATA_VERSION = 3;
 
 /* ── Firebase REST helpers ── */
 async function fbGet(){
@@ -810,17 +810,21 @@ const DEFAULTS = [
 ];
 
 const DEFAULT_COURSES = [
-  {id:'c1',  name:'Lógica de Programação: Algoritmos',          inst:'SENAI'},
-  {id:'c2',  name:'Lógica de Programação: Tipos de Dados',      inst:'SENAI'},
-  {id:'c3',  name:'Tecnologia e Comunicação',                   inst:'SENAI'},
-  {id:'c4',  name:'Desenvolvimento Web com Integração em IA',   inst:'Gustavo Campelo'},
-  {id:'c5',  name:'Python do Zero',                             inst:'Gustavo Guanabara'},
-  {id:'c6',  name:'Figma na Prática: Prototipagem com IA',      inst:'EBAC'},
-  {id:'c7',  name:'Banco de Dados – Censo Cadastral Previdenciário', inst:'ENAP'},
-  {id:'c8',  name:'Maximizar a IA no seu Negócio',              inst:'Santander Open Academy'},
-  {id:'c9',  name:'Domine a IA com Gemini',                     inst:'Santander Open Academy / Google Gemini'},
-  {id:'c10', name:'Imersão Inteligência Artificial na Prática', inst:'DAXUS'},
-  {id:'c11', name:'Claude 101',                                 inst:'Anthropic'},
+  {id:'c1',  name:'Lógica de Programação: Algoritmos',               inst:'SENAI'},
+  {id:'c2',  name:'Lógica de Programação: Tipos de Dados',           inst:'SENAI'},
+  {id:'c3',  name:'Tecnologia e Comunicação',                        inst:'SENAI'},
+  {id:'c4',  name:'Ética na IA',                                     inst:'SENAI'},
+  {id:'c5',  name:'Claude 101',                                      inst:'Anthropic'},
+  {id:'c6',  name:'Claude Code 101',                                 inst:'Anthropic'},
+  {id:'c7',  name:'Claude Code em Ação',                             inst:'Anthropic'},
+  {id:'c8',  name:'Introdução ao Trabalho Colaborativo de Claude',   inst:'Anthropic'},
+  {id:'c9',  name:'Desenvolvimento Web com Integração em IA',        inst:'Gustavo Campelo'},
+  {id:'c10', name:'Python do Zero',                                  inst:'Gustavo Guanabara'},
+  {id:'c11', name:'Figma na Prática: Prototipagem com IA',           inst:'EBAC'},
+  {id:'c12', name:'Banco de Dados – Censo Cadastral Previdenciário', inst:'ENAP'},
+  {id:'c13', name:'Maximizar a IA no seu Negócio',                   inst:'Santander Open Academy'},
+  {id:'c14', name:'Domine a IA com Gemini',                         inst:'Santander / Google'},
+  {id:'c15', name:'Imersão Inteligência Artificial na Prática',      inst:'DAXUS'},
 ];
 const DEFAULT_SKILLS  = ['HTML','CSS','JavaScript','TypeScript','Angular','React','Python','C#','C','AWS','MySQL','Oracle'];
 const DEFAULT_PROMPT  = ['Lovable','Base44','Stitch','Figma Make','Claude Code','Bolt.AI','Replit','N8N'];
