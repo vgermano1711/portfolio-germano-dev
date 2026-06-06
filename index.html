@@ -880,6 +880,7 @@ async function loadData(){
       projs = clone(DEFAULTS); courses = clone(DEFAULT_COURSES);
       skills = [...DEFAULT_SKILLS]; promptTags = [...DEFAULT_PROMPT]; toolTags = [...DEFAULT_TOOLS];
       await fbSet({ version:DATA_VERSION, initialized:true, projects:projs, courses, skills, prompt:promptTags, tools:toolTags });
+      return;
     }
     const initialized = db.initialized || (db.projects && db.projects.length > 0);
     if (initialized && !needsReset) {
