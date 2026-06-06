@@ -3,218 +3,254 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CV — Victor Afonso Germano</title>
+<title>Victor Afonso Germano — CV</title>
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:'Times New Roman',Times,serif;font-size:10pt;color:#000;background:#fff;max-width:720px;margin:0 auto;padding:28px 36px}
-  h1{font-size:18pt;font-weight:700;text-align:center;letter-spacing:.02em;margin-bottom:4px}
-  .contact{text-align:center;font-size:8.5pt;margin-bottom:10px;color:#222}
-  .contact a{color:#000;text-decoration:none}
-  .summary{font-size:9pt;text-align:center;margin-bottom:14px;line-height:1.45}
-  .section-title{font-size:10.5pt;font-weight:700;text-transform:uppercase;border-bottom:1.5px solid #000;padding-bottom:2px;margin:12px 0 6px}
-  .entry{margin-bottom:7px}
-  .entry-header{display:flex;justify-content:space-between;align-items:baseline}
-  .entry-name{font-weight:700;font-size:9.5pt}
-  .entry-date{font-size:9pt;color:#333}
-  .entry-sub{font-size:9pt;font-style:italic;color:#333;margin-bottom:2px}
-  .entry-sub a{color:#333;text-decoration:none}
-  ul{padding-left:16px;margin-top:2px}
-  li{font-size:9pt;line-height:1.5;margin-bottom:1px}
-  .skills-block{font-size:9pt;line-height:1.7}
-  .skills-block strong{font-weight:700}
-  /* Cursos em 2 colunas por grupo */
+
+  body{
+    font-family: 'Calibri', 'Arial', sans-serif;
+    font-size: 10.5pt;
+    color: #1a1a1a;
+    background: #fff;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 36px 44px;
+    line-height: 1.5;
+  }
+
+  /* ── HEADER ── */
+  header{text-align:center;margin-bottom:18px;padding-bottom:14px;border-bottom:2px solid #1a1a1a}
+  h1{font-size:22pt;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#1a1a1a}
+  .tagline{font-size:9pt;color:#555;margin:4px 0 8px;letter-spacing:.02em}
+  .contact{font-size:9pt;color:#333;display:flex;justify-content:center;flex-wrap:wrap;gap:4px 14px}
+  .contact a{color:#333;text-decoration:none}
+
+  /* ── SECTIONS ── */
+  section{margin-bottom:14px}
+  h2{
+    font-size:9.5pt;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.12em;
+    color:#1a1a1a;
+    border-bottom:1px solid #ccc;
+    padding-bottom:3px;
+    margin-bottom:8px;
+  }
+
+  /* ── ENTRIES ── */
+  .entry{margin-bottom:9px}
+  .entry-row{display:flex;justify-content:space-between;align-items:baseline}
+  .entry-title{font-weight:700;font-size:10.5pt}
+  .entry-date{font-size:9pt;color:#444;white-space:nowrap;margin-left:8px}
+  .entry-sub{font-size:9pt;color:#555;font-style:italic;margin-bottom:2px}
+  .entry-sub a{color:#555;text-decoration:none}
+
+  ul{padding-left:15px;margin-top:3px}
+  li{font-size:10pt;color:#222;margin-bottom:1px}
+
+  /* ── SKILLS ── */
+  .skills-table{width:100%;border-collapse:collapse}
+  .skills-table td{font-size:10pt;padding:2px 0;vertical-align:top}
+  .skills-table td:first-child{font-weight:700;width:160px;color:#1a1a1a}
+  .skills-table td:last-child{color:#333}
+
+  /* ── COURSES ── */
   .courses-group{margin-bottom:8px}
-  .courses-group-title{font-weight:700;font-size:9.5pt;margin-bottom:3px}
-  .courses-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px 16px}
-  .course-item{font-size:9pt;line-height:1.6}
-  .course-inst{font-size:8pt;font-style:italic;color:#444}
+  .courses-label{font-weight:700;font-size:10pt;color:#1a1a1a;margin-bottom:3px}
+  .courses-list{display:flex;flex-direction:column;gap:1px}
+  .course-line{font-size:9.5pt;color:#333;padding-left:10px}
+  .course-line::before{content:'·';margin-right:6px;color:#888}
+
+  /* ── PRINT ── */
   @media print{
-    body{padding:18px 28px;max-width:100%}
+    body{padding:20px 28px;max-width:100%}
     @page{margin:1.2cm 1.5cm;size:A4}
-    a{color:#000 !important}
   }
 </style>
 </head>
 <body>
 
-<h1>VICTOR AFONSO GERMANO</h1>
-<p class="contact">
-  +55 (11) 95357-0476 &middot; <a href="mailto:vgermano1710@gmail.com">vgermano1710@gmail.com</a> &middot;
-  <a href="https://linkedin.com/in/victor-germano-65787b2b1">linkedin.com/in/victor-germano-65787b2b1</a> &middot;
-  <a href="https://vgermano1711.github.io">vgermano1711.github.io</a>
-</p>
-<p class="summary">Estudante de Engenharia de Software com 6+ projetos deployados, experiência em T.I e foco em desenvolvimento web full stack com IA integrada.</p>
+<!-- HEADER -->
+<header>
+  <h1>Victor Afonso Germano</h1>
+  <p class="tagline">Desenvolvedor Web Full Stack · IA &amp; Automação</p>
+  <div class="contact">
+    <span>+55 (11) 95357-0476</span>
+    <span>·</span>
+    <a href="mailto:vgermano1710@gmail.com">vgermano1710@gmail.com</a>
+    <span>·</span>
+    <a href="https://linkedin.com/in/victor-germano-65787b2b1">linkedin.com/in/victor-germano-65787b2b1</a>
+    <span>·</span>
+    <a href="https://vgermano1711.github.io">vgermano1711.github.io</a>
+  </div>
+</header>
+
+<!-- RESUMO -->
+<section>
+  <h2>Perfil</h2>
+  <p style="font-size:10pt;color:#333">Estudante de Engenharia de Software com 6+ projetos deployados, experiência em T.I e foco em desenvolvimento web full stack com IA integrada. Histórico prático em entrega de soluções reais para clientes, desde landing pages a plataformas SaaS.</p>
+</section>
 
 <!-- FORMAÇÃO -->
-<div class="section-title">Formação Acadêmica</div>
-<div class="entry">
-  <div class="entry-header">
-    <span class="entry-name">Bacharelado em Engenharia de Software</span>
-    <span class="entry-date">Fev 2025 – Em andamento</span>
+<section>
+  <h2>Formação Acadêmica</h2>
+  <div class="entry">
+    <div class="entry-row">
+      <span class="entry-title">Bacharelado em Engenharia de Software</span>
+      <span class="entry-date">Fev 2025 – Em andamento</span>
+    </div>
+    <div class="entry-sub">Universidade Cruzeiro do Sul — São Paulo, SP</div>
   </div>
-  <div class="entry-sub">Universidade Cruzeiro do Sul — São Paulo, SP</div>
-</div>
+</section>
 
 <!-- EXPERIÊNCIA -->
-<div class="section-title">Experiência Profissional</div>
+<section>
+  <h2>Experiência Profissional</h2>
 
-<div class="entry">
-  <div class="entry-header">
-    <span class="entry-name">Auxiliar de T.I</span>
-    <span class="entry-date">Mai 2024 – Ago 2024</span>
+  <div class="entry">
+    <div class="entry-row">
+      <span class="entry-title">Auxiliar de T.I</span>
+      <span class="entry-date">Mai 2024 – Ago 2024</span>
+    </div>
+    <div class="entry-sub">Poupatempo do Caminhão — São Paulo, SP</div>
+    <ul>
+      <li>Suporte técnico, manutenção de equipamentos e resolução de chamados em ambiente de alta demanda.</li>
+      <li>Diagnóstico de problemas de hardware, software e infraestrutura de redes.</li>
+    </ul>
   </div>
-  <div class="entry-sub">Poupatempo do Caminhão — São Paulo, SP</div>
-  <ul>
-    <li>Suporte técnico, manutenção de equipamentos e resolução de chamados em ambiente de alta demanda.</li>
-    <li>Diagnóstico de problemas de hardware, software e infraestrutura de redes.</li>
-  </ul>
-</div>
 
-<div class="entry">
-  <div class="entry-header">
-    <span class="entry-name">Operador / Cobrador</span>
-    <span class="entry-date">Out 2024 – Presente</span>
+  <div class="entry">
+    <div class="entry-row">
+      <span class="entry-title">Operador / Cobrador</span>
+      <span class="entry-date">Out 2024 – Presente</span>
+    </div>
+    <div class="entry-sub">Grupo Roveri — São Paulo, SP</div>
+    <ul>
+      <li>Gestão de informações operacionais e atendimento ao cliente em alto volume.</li>
+      <li>Organização de processos com foco em eficiência, precisão e raciocínio analítico.</li>
+    </ul>
   </div>
-  <div class="entry-sub">Grupo Roveri — São Paulo, SP</div>
-  <ul>
-    <li>Gestão de informações operacionais e atendimento ao cliente em alto volume.</li>
-    <li>Organização de processos com foco em eficiência, precisão e raciocínio analítico.</li>
-  </ul>
-</div>
+</section>
 
 <!-- PROJETOS -->
-<div class="section-title">Projetos</div>
+<section>
+  <h2>Projetos</h2>
 
-<div class="entry">
-  <div class="entry-header">
-    <span class="entry-name">GNX Growth — Plataforma SaaS</span>
-    <span class="entry-date">2025</span>
+  <div class="entry">
+    <div class="entry-row">
+      <span class="entry-title">GNX Growth — Plataforma SaaS</span>
+      <span class="entry-date">2025</span>
+    </div>
+    <div class="entry-sub"><a href="https://gnxgrowth.com.br">gnxgrowth.com.br</a> &nbsp;·&nbsp; Full Stack · IA · Growth Marketing</div>
+    <ul><li>SaaS de growth marketing para o mercado brasileiro — full stack, IA integrada, lançado em produção.</li></ul>
   </div>
-  <div class="entry-sub"><a href="https://gnxgrowth.com.br">gnxgrowth.com.br</a> | Full Stack &middot; IA &middot; Growth Marketing</div>
-  <ul><li>SaaS de growth marketing para o mercado brasileiro — full stack, IA integrada, lançado em produção.</li></ul>
-</div>
 
-<div class="entry">
-  <div class="entry-header">
-    <span class="entry-name">Automação de Leads</span>
-    <span class="entry-date">2025</span>
+  <div class="entry">
+    <div class="entry-row">
+      <span class="entry-title">Automação de Leads</span>
+      <span class="entry-date">2025</span>
+    </div>
+    <div class="entry-sub">Automação · Make · CRM</div>
+    <ul><li>Fluxo automatizado de captação e gestão de leads com Make, integrado a CRM para nutrição e conversão.</li></ul>
   </div>
-  <div class="entry-sub">Automação &middot; Make &middot; CRM</div>
-  <ul><li>Fluxo automatizado de captação e gestão de leads com Make, integrado a CRM para nutrição e conversão.</li></ul>
-</div>
 
-<div class="entry">
-  <div class="entry-header">
-    <span class="entry-name">Portfólio Profissional</span>
-    <span class="entry-date">2025</span>
+  <div class="entry">
+    <div class="entry-row">
+      <span class="entry-title">Portfólio Profissional</span>
+      <span class="entry-date">2025</span>
+    </div>
+    <div class="entry-sub"><a href="https://vgermano1711.github.io">vgermano1711.github.io</a> &nbsp;·&nbsp; HTML · CSS · JS · Firebase</div>
+    <ul><li>Portfólio responsivo com CMS próprio e Firebase Realtime Database — atualização sem redeploy.</li></ul>
   </div>
-  <div class="entry-sub"><a href="https://vgermano1711.github.io">vgermano1711.github.io</a> | HTML &middot; CSS &middot; JS &middot; Firebase</div>
-  <ul><li>Portfólio responsivo com CMS próprio e Firebase Realtime Database — atualização sem redeploy.</li></ul>
-</div>
 
-<div class="entry">
-  <div class="entry-header">
-    <span class="entry-name">Academia Agits</span>
-    <span class="entry-date">2025</span>
+  <div class="entry">
+    <div class="entry-row">
+      <span class="entry-title">Academia Agits</span>
+      <span class="entry-date">2025</span>
+    </div>
+    <div class="entry-sub"><a href="https://academiaagits.com.br">academiaagits.com.br</a> &nbsp;·&nbsp; Institucional · UI/UX · Conversão</div>
+    <ul><li>Landing page com foco em UX e conversão — código manual, design customizado.</li></ul>
   </div>
-  <div class="entry-sub"><a href="https://academiaagits.com.br">academiaagits.com.br</a> | Institucional &middot; UI/UX &middot; Conversão</div>
-  <ul><li>Landing page com foco em UX e conversão — código manual, design customizado.</li></ul>
-</div>
 
-<div class="entry">
-  <div class="entry-header">
-    <span class="entry-name">Alma Estudos Visuais</span>
-    <span class="entry-date">2025</span>
+  <div class="entry">
+    <div class="entry-row">
+      <span class="entry-title">Alma Estudos Visuais</span>
+      <span class="entry-date">2025</span>
+    </div>
+    <div class="entry-sub"><a href="https://almaestudosvisuais.com.br">almaestudosvisuais.com.br</a> &nbsp;·&nbsp; Artístico · Identidade Visual</div>
+    <ul><li>Site artístico com identidade visual personalizada e layout responsivo.</li></ul>
   </div>
-  <div class="entry-sub"><a href="https://almaestudosvisuais.com.br">almaestudosvisuais.com.br</a> | Artístico &middot; Identidade Visual</div>
-  <ul><li>Site artístico com identidade visual personalizada e layout responsivo.</li></ul>
-</div>
 
-<div class="entry">
-  <div class="entry-header">
-    <span class="entry-name">Projeto Pringles</span>
-    <span class="entry-date">2025</span>
+  <div class="entry">
+    <div class="entry-row">
+      <span class="entry-title">Projeto Pringles</span>
+      <span class="entry-date">2025</span>
+    </div>
+    <div class="entry-sub"><a href="https://projetopringles-teste.lovable.app">projetopringles-teste.lovable.app</a> &nbsp;·&nbsp; Lovable · IA</div>
+    <ul><li>Projeto institucional com prototipagem ágil via Lovable e IA — entrega rápida e design profissional.</li></ul>
   </div>
-  <div class="entry-sub"><a href="https://projetopringles-teste.lovable.app">projetopringles-teste.lovable.app</a> | Lovable &middot; IA</div>
-  <ul><li>Projeto institucional com prototipagem ágil via Lovable e IA — entrega rápida e design profissional.</li></ul>
-</div>
+</section>
 
 <!-- HABILIDADES -->
-<div class="section-title">Habilidades Técnicas</div>
-<div class="skills-block">
-  <p><strong>Linguagens:</strong> HTML5, CSS3, JavaScript (ES6+), TypeScript, Python, C#, C</p>
-  <p><strong>Frameworks:</strong> React, Angular</p>
-  <p><strong>Banco de Dados:</strong> MySQL, Oracle</p>
-  <p><strong>Cloud &amp; Infra:</strong> AWS (básico), Git, GitHub</p>
-  <p><strong>IA &amp; Automação:</strong> Claude Code, N8N, Engenharia de Prompt, Lovable, Base44, Bolt.AI, Replit, Make</p>
-  <p><strong>Design:</strong> Figma, Canva, Krea.AI, Runway ML, Gamma, Pacote Office</p>
-  <p><strong>Idiomas:</strong> Português (nativo) &middot; Inglês (intermediário — leitura técnica) &middot; Espanhol (avançado)</p>
-</div>
+<section>
+  <h2>Habilidades Técnicas</h2>
+  <table class="skills-table">
+    <tr><td>Linguagens</td><td>HTML5, CSS3, JavaScript (ES6+), TypeScript, Python, C#, C</td></tr>
+    <tr><td>Frameworks</td><td>React, Angular</td></tr>
+    <tr><td>Banco de Dados</td><td>MySQL, Oracle</td></tr>
+    <tr><td>Cloud &amp; Infra</td><td>AWS (básico), Git, GitHub</td></tr>
+    <tr><td>IA &amp; Automação</td><td>Claude Code, N8N, Engenharia de Prompt, Lovable, Base44, Bolt.AI, Replit, Make</td></tr>
+    <tr><td>Design</td><td>Figma, Canva, Krea.AI, Runway ML, Gamma, Pacote Office</td></tr>
+    <tr><td>Idiomas</td><td>Português (nativo) · Inglês (intermediário — leitura técnica) · Espanhol (avançado)</td></tr>
+  </table>
+</section>
 
 <!-- CURSOS -->
-<div class="section-title">Cursos &amp; Certificações</div>
+<section>
+  <h2>Cursos &amp; Certificações</h2>
 
-<div class="courses-group">
-  <div class="courses-group-title">SENAI</div>
-  <div class="courses-grid">
-    <div class="course-item">Lógica de Programação: Algoritmos</div>
-    <div class="course-item">Lógica de Programação: Tipos de Dados</div>
-    <div class="course-item">Tecnologia e Comunicação</div>
-    <div class="course-item">Ética na IA</div>
-  </div>
-</div>
-
-<div class="courses-group">
-  <div class="courses-group-title">Anthropic</div>
-  <div class="courses-grid">
-    <div class="course-item">Claude 101</div>
-    <div class="course-item">Claude Code 101</div>
-    <div class="course-item">Claude Code em Ação</div>
-    <div class="course-item">Introdução ao Trabalho Colaborativo de Claude</div>
-    <div class="course-item">Fluência em IA para Educadores</div>
-    <div class="course-item">Fluência em IA para Estudantes</div>
-    <div class="course-item">Fluência em IA: Estrutura e Fundamentos</div>
-    <div class="course-item">Construindo com a API Claude</div>
-    <div class="course-item">Claude com a Base Amazônica</div>
-    <div class="course-item">Claude com a Vertex AI do Google Cloud</div>
-    <div class="course-item">Introdução ao Protocolo de Contexto do Modelo</div>
-    <div class="course-item">Protocolo de Contexto do Modelo: Tópicos Avançados</div>
-  </div>
-</div>
-
-<div class="courses-group">
-  <div class="courses-group-title">Outros</div>
-  <div class="courses-grid">
-    <div class="course-item">
-      Desenvolvimento Web com Integração em IA
-      <div class="course-inst">Gustavo Campelo</div>
-    </div>
-    <div class="course-item">
-      Python do Zero
-      <div class="course-inst">Gustavo Guanabara</div>
-    </div>
-    <div class="course-item">
-      Figma na Prática: Prototipagem com IA
-      <div class="course-inst">EBAC</div>
-    </div>
-    <div class="course-item">
-      Banco de Dados – Censo Cadastral Previdenciário
-      <div class="course-inst">ENAP</div>
-    </div>
-    <div class="course-item">
-      Maximizar a IA no seu Negócio
-      <div class="course-inst">Santander Open Academy</div>
-    </div>
-    <div class="course-item">
-      Domine a IA com Gemini
-      <div class="course-inst">Santander / Google</div>
-    </div>
-    <div class="course-item">
-      Imersão Inteligência Artificial na Prática
-      <div class="course-inst">DAXUS</div>
+  <div class="courses-group">
+    <div class="courses-label">SENAI</div>
+    <div class="courses-list">
+      <span class="course-line">Lógica de Programação: Algoritmos</span>
+      <span class="course-line">Lógica de Programação: Tipos de Dados</span>
+      <span class="course-line">Tecnologia e Comunicação</span>
+      <span class="course-line">Ética na IA</span>
     </div>
   </div>
-</div>
+
+  <div class="courses-group">
+    <div class="courses-label">Anthropic</div>
+    <div class="courses-list">
+      <span class="course-line">Claude 101</span>
+      <span class="course-line">Claude Code 101</span>
+      <span class="course-line">Claude Code em Ação</span>
+      <span class="course-line">Introdução ao Trabalho Colaborativo de Claude</span>
+      <span class="course-line">Fluência em IA para Educadores</span>
+      <span class="course-line">Fluência em IA para Estudantes</span>
+      <span class="course-line">Fluência em IA: Estrutura e Fundamentos</span>
+      <span class="course-line">Construindo com a API Claude</span>
+      <span class="course-line">Claude com a Base Amazônica</span>
+      <span class="course-line">Claude com a Vertex AI do Google Cloud</span>
+      <span class="course-line">Introdução ao Protocolo de Contexto do Modelo</span>
+      <span class="course-line">Protocolo de Contexto do Modelo: Tópicos Avançados</span>
+    </div>
+  </div>
+
+  <div class="courses-group">
+    <div class="courses-label">Outros</div>
+    <div class="courses-list">
+      <span class="course-line">Desenvolvimento Web com Integração em IA — Gustavo Campelo</span>
+      <span class="course-line">Python do Zero — Gustavo Guanabara</span>
+      <span class="course-line">Figma na Prática: Prototipagem com IA — EBAC</span>
+      <span class="course-line">Banco de Dados – Censo Cadastral Previdenciário — ENAP</span>
+      <span class="course-line">Maximizar a IA no seu Negócio — Santander Open Academy</span>
+      <span class="course-line">Domine a IA com Gemini — Santander / Google</span>
+      <span class="course-line">Imersão Inteligência Artificial na Prática — DAXUS</span>
+    </div>
+  </div>
+</section>
 
 </body>
 </html>
