@@ -473,7 +473,7 @@ body.panel-open #fb-setup-banner{right:480px}
         <p>Combino <strong>código manual</strong> e ferramentas de <strong>IA</strong> para construir produtos digitais que se destacam — do conceito à entrega final.</p>
         <p>Meu objetivo é atuar como <strong>Desenvolvedor Júnior</strong>, colaborando com equipes e entregando soluções de qualidade.</p>
         <div class="tg" style="margin-top:1.75rem">
-          <div class="tgl">Cursos &amp; Certificações</div>
+          <div class="tgl">Cursos &amp; Certificações <span id="curso-count" style="font-weight:400;font-size:.8em;color:var(--gray);letter-spacing:0"></span></div>
           <ul class="cl" id="curso-list"></ul>
           <p id="curso-empty" style="color:var(--gray);font-size:.82rem;display:none">Nenhum curso adicionado ainda.</p>
         </div>
@@ -1047,7 +1047,9 @@ function render(){
 function renderCourses(){
   const list  = document.getElementById('curso-list');
   const empty = document.getElementById('curso-empty');
+  const countEl = document.getElementById('curso-count');
   list.innerHTML = '';
+  if (countEl) countEl.textContent = courses.length ? `(${courses.length})` : '';
   if (!courses.length){ empty.style.display='block'; return; }
   empty.style.display = 'none';
 
