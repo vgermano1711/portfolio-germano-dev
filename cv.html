@@ -9,63 +9,63 @@
 
   body{
     font-family: 'Calibri', 'Arial', sans-serif;
-    font-size: 8.4pt;
+    font-size: 8.2pt;
     color: #1a1a1a;
     background: #fff;
     max-width: 760px;
     margin: 0 auto;
-    padding: 6px 26px;
-    line-height: 1.18;
+    padding: 4px 22px;
+    line-height: 1.15;
   }
 
   /* ── HEADER ── */
-  header{text-align:center;margin-bottom:5px;padding-bottom:4px;border-bottom:2px solid #1a1a1a}
-  h1{font-size:17pt;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#1a1a1a}
-  .tagline{font-size:8pt;color:#555;margin:2px 0 5px;letter-spacing:.02em}
-  .contact{font-size:8pt;color:#333;display:flex;justify-content:center;flex-wrap:wrap;gap:2px 10px}
+  header{text-align:center;margin-bottom:4px;padding-bottom:3px;border-bottom:2px solid #1a1a1a}
+  h1{font-size:16pt;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#1a1a1a}
+  .tagline{font-size:7.8pt;color:#555;margin:1px 0 4px;letter-spacing:.02em}
+  .contact{font-size:7.8pt;color:#333;display:flex;justify-content:center;flex-wrap:wrap;gap:1px 8px}
   .contact a{color:#333;text-decoration:none}
 
   /* ── SECTIONS ── */
-  section{margin-bottom:3px}
+  section{margin-bottom:2px}
   h2{
-    font-size:8pt;
+    font-size:7.8pt;
     font-weight:700;
     text-transform:uppercase;
     letter-spacing:.12em;
     color:#1a1a1a;
     border-bottom:1px solid #ccc;
-    padding-bottom:2px;
-    margin-bottom:4px;
+    padding-bottom:1px;
+    margin-bottom:3px;
   }
 
   /* ── ENTRIES ── */
-  .entry{margin-bottom:2px}
+  .entry{margin-bottom:1px}
   .entry-row{display:flex;justify-content:space-between;align-items:baseline}
-  .entry-title{font-weight:700;font-size:8.8pt}
-  .entry-date{font-size:8pt;color:#444;white-space:nowrap;margin-left:8px}
-  .entry-sub{font-size:8pt;color:#555;font-style:italic;margin-bottom:1px}
+  .entry-title{font-weight:700;font-size:8.5pt}
+  .entry-date{font-size:7.8pt;color:#444;white-space:nowrap;margin-left:8px}
+  .entry-sub{font-size:7.8pt;color:#555;font-style:italic;margin-bottom:0}
   .entry-sub a{color:#555;text-decoration:none}
 
-  ul{padding-left:12px;margin-top:1px}
-  li{font-size:8.5pt;color:#222;margin-bottom:0}
+  ul{padding-left:11px;margin-top:0}
+  li{font-size:8.2pt;color:#222;margin-bottom:0}
 
   /* ── SKILLS ── */
   .skills-table{width:100%;border-collapse:collapse}
-  .skills-table td{font-size:8.5pt;padding:1px 0;vertical-align:top}
-  .skills-table td:first-child{font-weight:700;width:130px;color:#1a1a1a}
+  .skills-table td{font-size:8.2pt;padding:0 0;vertical-align:top}
+  .skills-table td:first-child{font-weight:700;width:128px;color:#1a1a1a}
   .skills-table td:last-child{color:#333}
 
   /* ── COURSES ── */
-  .courses-group{margin-bottom:2px}
-  .courses-label{font-weight:700;font-size:8.5pt;color:#1a1a1a;margin-bottom:1px}
+  .courses-group{margin-bottom:1px}
+  .courses-label{font-weight:700;font-size:8.2pt;color:#1a1a1a;margin-bottom:0}
   .courses-list{display:flex;flex-wrap:wrap}
-  .course-line{font-size:7.8pt;color:#333;padding-left:6px;width:50%;line-height:1.32}
+  .course-line{font-size:7.6pt;color:#333;padding-left:6px;width:50%;line-height:1.28}
   .course-line::before{content:'·';margin-right:4px;color:#888}
 
   /* ── PRINT ── */
   @media print{
     body{padding:0;max-width:100%}
-    @page{margin:0.35cm 0.9cm;size:A4}
+    @page{margin:0.25cm 0.7cm;size:A4}
   }
 </style>
 </head>
@@ -198,6 +198,15 @@
     </div>
     <div class="entry-sub">Obsidian · PKM · Gestão do Conhecimento</div>
     <ul><li>Sistema pessoal de gestão do conhecimento com Obsidian — organização de notas, conexões entre ideias e fluxo de aprendizado contínuo.</li></ul>
+  </div>
+
+  <div class="entry">
+    <div class="entry-row">
+      <span class="entry-title">Jarvis — Assistente de IA por Voz</span>
+      <span class="entry-date">2025</span>
+    </div>
+    <div class="entry-sub"><a href="https://github.com/vgermano1711/Programador-por-voz---Jarvis">github/Programador-por-voz---Jarvis</a> &nbsp;·&nbsp; Python · Claude API · faster-whisper · Edge TTS · SQLite</div>
+    <ul><li>Assistente pessoal com voz bidirecional inspirado no J.A.R.V.I.S. Ouve, raciocina com Claude e responde em ~1 segundo. Integrado a VS Code, Spotify, Calendar, Gmail e GitHub. Memória persistente entre sessões.</li></ul>
   </div>
 </section>
 
