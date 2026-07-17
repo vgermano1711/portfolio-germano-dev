@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Tabela de Preços — Victor Germano</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    font-family:'Calibri','Arial',sans-serif;
+    font-size:9pt;
+    color:#1a1a1a;
+    background:#fff;
+    max-width:780px;
+    margin:0 auto;
+    padding:10px 24px;
+    line-height:1.3;
+  }
+
+  /* HEADER */
+  header{text-align:center;margin-bottom:10px;padding-bottom:8px;border-bottom:2.5px solid #1a1a1a}
+  h1{font-size:16pt;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+  .sub{font-size:9pt;color:#555;margin:3px 0 2px}
+  .contact{font-size:8pt;color:#444;margin-top:3px}
+  .contact a{color:#444;text-decoration:none}
+
+  /* AVISO */
+  .notice{background:#f5f5f5;border-left:3px solid #1a1a1a;padding:5px 10px;font-size:8pt;color:#444;margin-bottom:10px;line-height:1.45}
+
+  /* SECTION TITLE */
+  h2{
+    font-size:8pt;font-weight:700;text-transform:uppercase;
+    letter-spacing:.14em;color:#1a1a1a;
+    border-bottom:1px solid #ccc;padding-bottom:2px;margin:8px 0 4px;
+  }
+
+  /* TABLE */
+  table{width:100%;border-collapse:collapse;margin-bottom:6px}
+  thead tr{background:#1a1a1a;color:#fff}
+  thead th{padding:4px 6px;font-size:8pt;font-weight:700;text-align:left;letter-spacing:.04em}
+  thead th:last-child{text-align:right;white-space:nowrap}
+  tbody tr:nth-child(even){background:#f9f9f9}
+  tbody tr:hover{background:#f0f0f0}
+  td{padding:3px 6px;font-size:8.2pt;vertical-align:top;border-bottom:1px solid #ebebeb}
+  td:last-child{text-align:right;white-space:nowrap;font-weight:700;color:#1a1a1a}
+  .tag{display:inline-block;background:#1a1a1a;color:#fff;font-size:6.5pt;padding:1px 5px;border-radius:2px;margin-left:4px;vertical-align:middle;letter-spacing:.04em}
+  .tag.rec{background:#2e7d32}
+  .tag.pop{background:#1565c0}
+  .desc{font-size:7.6pt;color:#666;display:block;margin-top:1px}
+
+  /* COMBOS */
+  .combo-box{border:1.5px solid #1a1a1a;border-radius:3px;padding:5px 8px;margin-bottom:5px}
+  .combo-title{font-weight:700;font-size:9pt;margin-bottom:2px}
+  .combo-includes{font-size:7.8pt;color:#444;margin-bottom:2px}
+  .combo-price{font-size:10pt;font-weight:700;text-align:right;color:#1a1a1a}
+  .combo-economy{font-size:7.5pt;color:#2e7d32;text-align:right;font-weight:700}
+  .combo-row{display:flex;justify-content:space-between;align-items:flex-end}
+
+  /* FOOTER */
+  footer{margin-top:8px;padding-top:6px;border-top:1px solid #ccc;font-size:7.5pt;color:#555;text-align:center;line-height:1.5}
+
+  @media print{
+    body{padding:0;max-width:100%}
+    @page{margin:0.5cm 0.9cm;size:A4}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Tabela de Preços — Victor Germano</h1>
+  <p class="sub">Desenvolvedor Web Full Stack · IA &amp; Automação · São Paulo, SP</p>
+  <p class="contact">
+    <a href="mailto:dev.germanoo@gmail.com">dev.germanoo@gmail.com</a> &nbsp;·&nbsp;
+    +55 (11) 95357-0476 &nbsp;·&nbsp;
+    <a href="https://vgermano1711.github.io/portfolio-germano-dev">vgermano1711.github.io/portfolio-germano-dev</a>
+  </p>
+</header>
+
+<div class="notice">
+  <strong>Importante:</strong> Os valores abaixo são referências base para projetos padrão. Cada projeto é orçado individualmente conforme escopo, prazo e complexidade. Solicite um orçamento personalizado. Projetos urgentes (entrega em menos de 7 dias) têm acréscimo de 30%. Pagamento: 50% entrada + 50% na entrega.
+</div>
+
+
+<!-- 1. SITES & LANDING PAGES -->
+<h2>01 · Sites &amp; Landing Pages</h2>
+<table>
+  <thead><tr><th>Serviço</th><th>Inclui</th><th>Prazo</th><th>Valor</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Landing Page Simples</strong></td>
+      <td>1 seção, formulário de contato, responsivo, SEO básico<span class="desc">Ideal para captura de leads, evento ou produto único</span></td>
+      <td>3–5 dias</td>
+      <td>R$ 500</td>
+    </tr>
+    <tr>
+      <td><strong>Landing Page Profissional</strong> <span class="tag pop">POPULAR</span></td>
+      <td>Multi-seção, animações, integração WhatsApp/e-mail, SEO on-page<span class="desc">Alta conversão, design customizado no Figma</span></td>
+      <td>5–7 dias</td>
+      <td>R$ 900</td>
+    </tr>
+    <tr>
+      <td><strong>Site Institucional</strong></td>
+      <td>Até 5 páginas, blog simples, mapa, SEO completo<span class="desc">Empresa, escritório, clínica, academia</span></td>
+      <td>7–12 dias</td>
+      <td>R$ 1.500</td>
+    </tr>
+    <tr>
+      <td><strong>Site Institucional Completo</strong></td>
+      <td>Até 10 páginas, painel admin, CMS para edição sem código<span class="desc">Atualize conteúdo sem precisar do desenvolvedor</span></td>
+      <td>12–18 dias</td>
+      <td>R$ 2.500</td>
+    </tr>
+    <tr>
+      <td><strong>Site Artístico / Portfólio</strong></td>
+      <td>Design personalizado, galeria, identidade visual integrada<span class="desc">Fotógrafos, artistas, criativos</span></td>
+      <td>7–10 dias</td>
+      <td>R$ 1.200</td>
+    </tr>
+    <tr>
+      <td><strong>E-commerce Básico</strong></td>
+      <td>Até 20 produtos, carrinho, integração de pagamento (PIX/cartão)<span class="desc">Catálogo + checkout funcional</span></td>
+      <td>15–20 dias</td>
+      <td>R$ 3.000</td>
+    </tr>
+    <tr>
+      <td><strong>E-commerce Avançado</strong></td>
+      <td>Produtos ilimitados, painel admin, gestão de estoque, relatórios<span class="desc">Solução completa para lojas online</span></td>
+      <td>25–35 dias</td>
+      <td>R$ 6.000+</td>
+    </tr>
+  </tbody>
+</table>
+
+
+<!-- 2. SISTEMAS & WEB APPS -->
+<h2>02 · Sistemas &amp; Web Apps</h2>
+<table>
+  <thead><tr><th>Serviço</th><th>Inclui</th><th>Prazo</th><th>Valor</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Web App Simples</strong></td>
+      <td>CRUD, autenticação, banco de dados, interface responsiva<span class="desc">Sistemas internos, ferramentas de gestão básica</span></td>
+      <td>12–18 dias</td>
+      <td>R$ 2.000</td>
+    </tr>
+    <tr>
+      <td><strong>Dashboard / Painel Admin</strong></td>
+      <td>Gráficos, tabelas, filtros, exportação de dados, controle de acesso<span class="desc">Visualização de métricas e gestão de dados</span></td>
+      <td>15–20 dias</td>
+      <td>R$ 2.800</td>
+    </tr>
+    <tr>
+      <td><strong>Plataforma SaaS Básica</strong> <span class="tag rec">RECOMENDADO</span></td>
+      <td>Multiusuário, assinaturas, painel cliente, API REST<span class="desc">MVP funcional pronto para validar no mercado</span></td>
+      <td>25–40 dias</td>
+      <td>R$ 5.500</td>
+    </tr>
+    <tr>
+      <td><strong>Plataforma SaaS Completa</strong></td>
+      <td>Multi-tenant, pagamentos recorrentes, onboarding, analytics interno<span class="desc">Produto digital escalável com infraestrutura robusta</span></td>
+      <td>45–60 dias</td>
+      <td>R$ 10.000+</td>
+    </tr>
+    <tr>
+      <td><strong>Integração de API / Middleware</strong></td>
+      <td>Conexão entre sistemas, transformação de dados, webhooks<span class="desc">Por integração — preço varia conforme complexidade</span></td>
+      <td>3–8 dias</td>
+      <td>R$ 700+</td>
+    </tr>
+  </tbody>
+</table>
+
+
+<!-- 3. AUTOMAÇÕES -->
+<h2>03 · Automações &amp; Integrações</h2>
+<table>
+  <thead><tr><th>Serviço</th><th>Inclui</th><th>Prazo</th><th>Valor</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Automação Simples</strong></td>
+      <td>1 fluxo Make/N8N, até 3 integrações, documentação<span class="desc">Ex: formulário → planilha → e-mail</span></td>
+      <td>2–4 dias</td>
+      <td>R$ 500</td>
+    </tr>
+    <tr>
+      <td><strong>Automação de Leads</strong> <span class="tag pop">POPULAR</span></td>
+      <td>Captura, segmentação, CRM, e-mail e WhatsApp automáticos<span class="desc">Nutrição completa do lead sem intervenção manual</span></td>
+      <td>5–8 dias</td>
+      <td>R$ 900</td>
+    </tr>
+    <tr>
+      <td><strong>Automação Completa</strong></td>
+      <td>Multi-fluxo, múltiplas integrações, tratamento de erros, monitoramento<span class="desc">Processos críticos de negócio 100% automatizados</span></td>
+      <td>10–15 dias</td>
+      <td>R$ 1.800</td>
+    </tr>
+    <tr>
+      <td><strong>Automação com IA (Claude Code)</strong></td>
+      <td>Agente IA no fluxo, tomada de decisão inteligente, logs<span class="desc">Ex: triagem de e-mails, geração de documentos, análise automática</span></td>
+      <td>8–15 dias</td>
+      <td>R$ 2.500+</td>
+    </tr>
+    <tr>
+      <td><strong>Emissão NF-e Automatizada</strong></td>
+      <td>Emissão em até 3s, integração com sistema fiscal, logs de auditoria<span class="desc">Desenvolvido com Claude Code — substitui N8N/Python/Node.js</span></td>
+      <td>8–12 dias</td>
+      <td>R$ 1.800</td>
+    </tr>
+    <tr>
+      <td><strong>Automação de Relatórios</strong></td>
+      <td>Geração automática de PDFs/planilhas agendados por período<span class="desc">Relatórios enviados por e-mail sem ação manual</span></td>
+      <td>5–8 dias</td>
+      <td>R$ 800</td>
+    </tr>
+  </tbody>
+</table>
+
+
+<!-- 4. INTELIGÊNCIA ARTIFICIAL -->
+<h2>04 · Inteligência Artificial &amp; Agentes</h2>
+<table>
+  <thead><tr><th>Serviço</th><th>Inclui</th><th>Prazo</th><th>Valor</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Chatbot Inteligente</strong></td>
+      <td>Integração com site existente, respostas contextuais, histórico<span class="desc">Atendimento automatizado 24h com Claude API</span></td>
+      <td>5–8 dias</td>
+      <td>R$ 1.000</td>
+    </tr>
+    <tr>
+      <td><strong>Agente IA Personalizado</strong> <span class="tag rec">RECOMENDADO</span></td>
+      <td>Ferramentas customizadas, memória persistente, roteamento entre modelos<span class="desc">Agente que executa tarefas reais no seu sistema</span></td>
+      <td>12–20 dias</td>
+      <td>R$ 3.500+</td>
+    </tr>
+    <tr>
+      <td><strong>Assistente de Voz com IA</strong></td>
+      <td>Reconhecimento de voz, resposta em áudio, integrações externas<span class="desc">Baseado no Jarvis — VS Code, Spotify, Gmail, GitHub</span></td>
+      <td>20–30 dias</td>
+      <td>R$ 4.500+</td>
+    </tr>
+    <tr>
+      <td><strong>IA em Produto Existente</strong></td>
+      <td>Integração de modelos Claude/GPT em sistema já construído<span class="desc">Adicione inteligência ao seu produto atual</span></td>
+      <td>8–15 dias</td>
+      <td>R$ 2.000+</td>
+    </tr>
+    <tr>
+      <td><strong>Engenharia de Prompt</strong></td>
+      <td>Pacote de 10 prompts profissionais otimizados para seu negócio<span class="desc">Documentação completa e exemplos de uso</span></td>
+      <td>2–4 dias</td>
+      <td>R$ 500</td>
+    </tr>
+    <tr>
+      <td><strong>Consultoria em IA</strong></td>
+      <td>Análise do negócio, mapa de oportunidades, roadmap de implementação<span class="desc">Por hora — sessão de 1h com relatório escrito</span></td>
+      <td>—</td>
+      <td>R$ 150/h</td>
+    </tr>
+  </tbody>
+</table>
+
+
+<!-- 5. DESIGN -->
+<h2>05 · Design &amp; Prototipagem</h2>
+<table>
+  <thead><tr><th>Serviço</th><th>Inclui</th><th>Prazo</th><th>Valor</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Identidade Visual Básica</strong></td>
+      <td>Logo, paleta de cores, tipografia, guia de uso<span class="desc">Tudo que você precisa para ter uma marca consistente</span></td>
+      <td>4–6 dias</td>
+      <td>R$ 700</td>
+    </tr>
+    <tr>
+      <td><strong>Prototipagem no Figma</strong></td>
+      <td>Até 10 telas navegáveis, componentes, exportação para dev<span class="desc">Valide o produto antes de desenvolver</span></td>
+      <td>5–8 dias</td>
+      <td>R$ 800</td>
+    </tr>
+    <tr>
+      <td><strong>Design System</strong></td>
+      <td>Biblioteca de componentes, tokens de design, documentação<span class="desc">Padrão visual escalável para times e produtos</span></td>
+      <td>10–15 dias</td>
+      <td>R$ 1.800</td>
+    </tr>
+    <tr>
+      <td><strong>Redesign de Site Existente</strong></td>
+      <td>Análise UX, novo layout, protótipo aprovado + implementação<span class="desc">Modernize sua presença digital sem reconstruir do zero</span></td>
+      <td>8–14 dias</td>
+      <td>R$ 1.200+</td>
+    </tr>
+  </tbody>
+</table>
+
+
+<!-- 6. MANUTENÇÃO -->
+<h2>06 · Manutenção &amp; Suporte</h2>
+<table>
+  <thead><tr><th>Plano</th><th>Inclui</th><th>SLA</th><th>Valor</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Suporte Avulso</strong></td>
+      <td>Correção pontual, ajuste de layout, dúvidas técnicas<span class="desc">Cobrado por hora efetiva de trabalho</span></td>
+      <td>48h</td>
+      <td>R$ 100/h</td>
+    </tr>
+    <tr>
+      <td><strong>Manutenção Básica</strong></td>
+      <td>Updates de segurança, backup semanal, 2h de alterações/mês<span class="desc">Seu site sempre atualizado e seguro</span></td>
+      <td>72h</td>
+      <td>R$ 250/mês</td>
+    </tr>
+    <tr>
+      <td><strong>Manutenção Profissional</strong> <span class="tag rec">RECOMENDADO</span></td>
+      <td>Updates + 5h alterações/mês + relatório mensal + suporte prioritário<span class="desc">Ideal para negócios que dependem do site para gerar receita</span></td>
+      <td>24h</td>
+      <td>R$ 500/mês</td>
+    </tr>
+    <tr>
+      <td><strong>Parceria Técnica Mensal</strong></td>
+      <td>10h/mês dedicadas, novas funcionalidades, reunião quinzenal<span class="desc">Tenha um dev no time sem CLT</span></td>
+      <td>12h</td>
+      <td>R$ 900/mês</td>
+    </tr>
+  </tbody>
+</table>
+
+
+<!-- 7. PACOTES COMBO -->
+<h2>07 · Pacotes Combinados</h2>
+
+<div class="combo-box">
+  <div class="combo-row">
+    <div>
+      <div class="combo-title">Pack Startup <span class="tag pop">POPULAR</span></div>
+      <div class="combo-includes">✔ Landing Page Profissional &nbsp;+&nbsp; Automação de Leads &nbsp;+&nbsp; Identidade Visual Básica</div>
+      <div class="combo-includes" style="color:#555;font-size:7.5pt">Tudo que um negócio precisa para lançar e captar clientes desde o primeiro dia</div>
+    </div>
+    <div style="text-align:right">
+      <div class="combo-price">R$ 2.000</div>
+      <div class="combo-economy">Economia de R$ 100 vs. separado</div>
+    </div>
+  </div>
+</div>
+
+<div class="combo-box">
+  <div class="combo-row">
+    <div>
+      <div class="combo-title">Pack Business</div>
+      <div class="combo-includes">✔ Site Institucional Completo &nbsp;+&nbsp; Automação Completa &nbsp;+&nbsp; Manutenção Básica (3 meses)</div>
+      <div class="combo-includes" style="color:#555;font-size:7.5pt">Presença digital profissional com processos automatizados e suporte garantido</div>
+    </div>
+    <div style="text-align:right">
+      <div class="combo-price">R$ 4.500</div>
+      <div class="combo-economy">Economia de R$ 550 vs. separado</div>
+    </div>
+  </div>
+</div>
+
+<div class="combo-box">
+  <div class="combo-row">
+    <div>
+      <div class="combo-title">Pack IA &amp; Automação <span class="tag rec">RECOMENDADO</span></div>
+      <div class="combo-includes">✔ Agente IA Personalizado &nbsp;+&nbsp; Automação com IA &nbsp;+&nbsp; Consultoria (2h)</div>
+      <div class="combo-includes" style="color:#555;font-size:7.5pt">Para empresas que querem escalar com inteligência artificial de verdade</div>
+    </div>
+    <div style="text-align:right">
+      <div class="combo-price">R$ 6.000</div>
+      <div class="combo-economy">Economia de R$ 300 vs. separado</div>
+    </div>
+  </div>
+</div>
+
+<div class="combo-box">
+  <div class="combo-row">
+    <div>
+      <div class="combo-title">Pack Enterprise</div>
+      <div class="combo-includes">✔ Plataforma SaaS Básica &nbsp;+&nbsp; IA em Produto &nbsp;+&nbsp; Automação Completa &nbsp;+&nbsp; Design System &nbsp;+&nbsp; Manutenção Profissional (3 meses)</div>
+      <div class="combo-includes" style="color:#555;font-size:7.5pt">Solução digital completa — do design ao produto em produção com IA integrada</div>
+    </div>
+    <div style="text-align:right">
+      <div class="combo-price">R$ 12.000</div>
+      <div class="combo-economy">Economia de R$ 1.600 vs. separado</div>
+    </div>
+  </div>
+</div>
+
+
+<footer>
+  Valores vigentes em julho de 2026 · Sujeitos a atualização sem aviso prévio · Projetos internacionais cotados em USD<br>
+  <strong>Victor Germano</strong> · dev.germanoo@gmail.com · (11) 95357-0476 · vgermano1711.github.io/portfolio-germano-dev
+</footer>
+
+</body>
+</html>
