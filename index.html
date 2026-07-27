@@ -771,7 +771,7 @@ body.panel-open #fb-setup-banner{right:480px}
 ══════════════════════════════════════ */
 const PASS = 'Careca1711@';
 const FIREBASE_URL = 'https://portfolio-germano-dev-default-rtdb.firebaseio.com';
-const DATA_VERSION = 13;
+const DATA_VERSION = 14;
 
 /* ── Firebase REST helpers ── */
 async function fbGet(){
@@ -815,7 +815,10 @@ const DEFAULTS = [
    img:'',link:'https://github.com/vgermano1711/agente-de-emissao-NF-e'},
   {id:'d6',name:'Jarvis — Assistente de IA por Voz',tags:['Python','Claude API','Voz','IA'],
    desc:'Assistente pessoal com voz bidirecional inspirado no J.A.R.V.I.S. do Homem de Ferro. Ouve comandos de voz, raciocina com Claude e responde em ~1 segundo. Integrado ao VS Code, Spotify, Google Calendar, Gmail e GitHub. Memória persistente entre sessões e roteamento automático entre modelos de IA.',
-   img:'',link:'https://github.com/vgermano1711/Programador-por-voz---Jarvis'}
+   img:'',link:'https://github.com/vgermano1711/Programador-por-voz---Jarvis'},
+  {id:'d9',name:'Verificador de Vulnerabilidade de Código',tags:['Python','Claude API','Segurança','OWASP'],
+   desc:'Ferramenta de análise de segurança que usa a Claude API (Anthropic) para inspecionar código-fonte e detectar vulnerabilidades críticas — SQL Injection, XSS, autenticação insegura, exposição de dados sensíveis e outros padrões OWASP. Gera relatório detalhado com nível de severidade (crítico, alto, médio, baixo) e sugestões de correção para cada vulnerabilidade encontrada. Suporta múltiplas linguagens de programação.',
+   img:'',link:'https://github.com/vgermano1711/Verificador-de-vulnerabilidade-de-codigo-'}
 ];
 
 const DEFAULT_COURSES = [
