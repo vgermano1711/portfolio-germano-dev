@@ -771,7 +771,7 @@ body.panel-open #fb-setup-banner{right:480px}
 ══════════════════════════════════════ */
 const PASS = 'Careca1711@';
 const FIREBASE_URL = 'https://portfolio-germano-dev-default-rtdb.firebaseio.com';
-const DATA_VERSION = 15;
+const DATA_VERSION = 16;
 
 /* ── Firebase REST helpers ── */
 async function fbGet(){
@@ -792,6 +792,9 @@ async function fbSet(data){
 }
 
 const DEFAULTS = [
+  {id:'d10',name:'GNX Growth — Plataforma SaaS',tags:['React','Firebase','TypeScript','IA','Growth Marketing'],
+   desc:'Plataforma SaaS de growth marketing desenvolvida do zero com React, Firebase e IA integrada — lançada em produção para o mercado brasileiro, com painel admin, autenticação e gestão de campanhas.',
+   img:'',link:'https://gnxgrowth.com.br'},
   {id:'d1',name:'Automação de Leads',tags:['Automação','Make','CRM'],
    desc:'Fluxo de automação completo para captação e nutrição de leads com Make. Integração com CRM, disparo de e-mails e notificações automáticas por WhatsApp.',
    img:'',link:''},
