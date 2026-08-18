@@ -1,11 +1,10 @@
 <div align="center">
 
-# 🎨 Germano Dev — Portfólio Pessoal
+# Germano Dev — Portfolio Pessoal
 
-> Site de portfólio pessoal com painel admin dinâmico, banco de dados Supabase e deploy automático no Netlify.
+> Site de portfolio pessoal com painel admin dinâmico, banco de dados Supabase e deploy automático no Netlify.
 
-
-[![Deploy](https://img.shields.io/badge/🌐_Ver_ao_vivo-germanodev--portfolio.netlify.app-00C7B7?style=for-the-badge)](https://germanodev-portfolio.netlify.app/)
+[![Deploy](https://img.shields.io/badge/Ver_ao_vivo-germanodev--portfolio.netlify.app-00C7B7?style=for-the-badge)](https://germanodev-portfolio.netlify.app/)
 [![HTML](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://developer.mozilla.org/pt-BR/docs/Web/HTML)
 [![CSS](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)](https://developer.mozilla.org/pt-BR/docs/Web/CSS)
 [![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript)
@@ -16,68 +15,65 @@
 
 ---
 
-## 🌐 Demo ao vivo
+## Demo ao vivo
 
-> ### 👉 [germanodev-portfolio.netlify.app](https://germanodev-portfolio.netlify.app/)
-
----
-
-## 📌 Sobre o Projeto
-
-Portfólio pessoal desenvolvido **do zero**, sem frameworks, para apresentar projetos, habilidades e formas de contato de maneira profissional.
-
-O diferencial deste portfólio é o **painel administrativo integrado**: projetos e cursos são gerenciados dinamicamente via banco de dados — sem precisar editar código para atualizar o conteúdo.
+[germanodev-portfolio.netlify.app](https://germanodev-portfolio.netlify.app/)
 
 ---
 
-## ✨ Funcionalidades
+## Sobre o Projeto
 
-| Feature | Descrição |
+Portfolio pessoal desenvolvido do zero, sem frameworks, para apresentar projetos, habilidades e formas de contato de maneira profissional.
+
+O diferencial deste portfolio é o painel administrativo integrado: projetos e cursos são gerenciados dinamicamente via banco de dados, sem precisar editar código para atualizar o conteúdo.
+
+---
+
+## Funcionalidades
+
+| Funcionalidade | Descrição |
 |--------|-----------|
-| 🎯 **Hero Section** | Apresentação com disponibilidade para novos projetos |
-| 📁 **Projetos Dinâmicos** | Listagem de projetos com imagem, tags, descrição e link — gerenciados via admin |
-| 📚 **Cursos & Certificações** | Lista de cursos adicionados dinamicamente pelo painel |
-| 🛠️ **Tech Skills** | Exibição visual das tecnologias dominadas |
-| 🤖 **IA & Ferramentas** | Seção dedicada a ferramentas de IA utilizadas |
-| 📬 **Contato direto** | Botões de WhatsApp e Instagram integrados |
-| 🔐 **Painel Admin** | Área protegida por senha para gerenciar projetos e cursos em tempo real |
-| 📱 **Responsivo** | Layout adaptado para mobile, tablet e desktop |
+| Hero Section | Apresentação com disponibilidade para novos projetos |
+| Projetos Dinâmicos | Listagem de projetos com imagem, tags, descrição e link, gerenciados via admin |
+| Cursos & Certificações | Lista de cursos adicionados dinamicamente pelo painel |
+| Tech Skills | Exibição visual das tecnologias dominadas |
+| IA & Ferramentas | Seção dedicada a ferramentas de IA utilizadas |
+| Contato direto | Botões de WhatsApp e Instagram integrados |
+| Painel Admin | Área protegida por senha para gerenciar projetos e cursos em tempo real |
+| Responsivo | Layout adaptado para mobile, tablet e desktop |
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 | Tecnologia | Uso no Projeto |
 |-----------|---------------|
-| **HTML5** | Estrutura semântica de toda a página |
-| **CSS3** | Estilização, animações, variáveis CSS e responsividade |
-| **JavaScript (Vanilla)** | Lógica do painel admin, autenticação e manipulação do DOM |
-| **Supabase** | Backend as a Service — banco de dados PostgreSQL + autenticação |
-| **Netlify** | Hospedagem e deploy contínuo via GitHub |
+| HTML5 | Estrutura semântica de toda a página |
+| CSS3 | Estilização, animações, variáveis CSS e responsividade |
+| JavaScript (Vanilla) | Lógica do painel admin, autenticação e manipulação do DOM |
+| Supabase | Backend as a Service — banco de dados PostgreSQL + autenticação |
+| Netlify | Hospedagem e deploy contínuo via GitHub |
 
-> **Por que Vanilla JS?** Escolha intencional para demonstrar domínio dos fundamentos do JavaScript sem depender de frameworks. A lógica de CRUD, autenticação e renderização dinâmica foi implementada manualmente.
+Vanilla JS foi uma escolha intencional para demonstrar domínio dos fundamentos do JavaScript sem depender de frameworks. A lógica de CRUD, autenticação e renderização dinâmica foi implementada manualmente.
 
 ---
 
-## 📁 Estrutura do Projeto
+## Estrutura do Projeto
 
 ```
 portfolio-germano-dev/
-│
-├── 📄 index.html           # Aplicação completa (HTML + CSS + JS em um arquivo)
-│                           # Inclui: layout, estilos, lógica do admin e integração Supabase
-│
-├── 🗃️ supabase-setup.sql   # Script SQL para configurar o banco de dados no Supabase
-│                           # Cria as tabelas: projetos, cursos e configurações
-│
-├── 🚫 .gitignore           # Arquivos ignorados pelo Git (env, node_modules, etc.)
-│
-└── 📖 README.md            # Documentação do projeto
+├── index.html           # Aplicação completa (HTML + CSS + JS em um arquivo)
+│                         # Inclui: layout, estilos, lógica do admin e integração Supabase
+├── supabase-setup.sql    # Script SQL para configurar o banco de dados no Supabase
+│                         # Cria as tabelas: projetos, cursos e configurações
+├── .gitignore
+├── LICENSE
+└── README.md
 ```
 
 ---
 
-## 🗄️ Estrutura do Banco de Dados (Supabase)
+## Estrutura do Banco de Dados (Supabase)
 
 O arquivo `supabase-setup.sql` cria as seguintes tabelas:
 
@@ -89,13 +85,14 @@ projetos (id, nome, descricao, imagem_url, link, tags, criado_em)
 cursos (id, nome, instituicao, criado_em)
 ```
 
-> **Supabase** é um backend open-source que oferece banco de dados PostgreSQL, autenticação e API REST automática. Funciona como alternativa ao Firebase, mas com SQL.
+Supabase é um backend open-source que oferece banco de dados PostgreSQL, autenticação e API REST automática. Funciona como alternativa ao Firebase, mas com SQL.
 
 ---
 
-## 🚀 Como Rodar Localmente
+## Como Rodar Localmente
 
 ### Pré-requisitos
+
 - Navegador moderno
 - Conta no [Supabase](https://supabase.com) (gratuito)
 
@@ -126,11 +123,11 @@ open index.html
 
 ---
 
-## ⚙️ Deploy (Netlify)
+## Deploy (Netlify)
 
-O projeto está hospedado no **Netlify** com deploy automático a partir deste repositório.
+O projeto está hospedado no Netlify com deploy automático a partir deste repositório.
 
-A cada `git push` na branch `main`, o Netlify detecta a mudança e publica automaticamente — sem precisar fazer nada manualmente.
+A cada `git push` na branch `main`, o Netlify detecta a mudança e publica automaticamente, sem intervenção manual.
 
 ```
 GitHub push → Netlify detecta → Build automático → Site atualizado
@@ -138,7 +135,7 @@ GitHub push → Netlify detecta → Build automático → Site atualizado
 
 ---
 
-## 👤 Sobre o Desenvolvedor
+## Sobre o Desenvolvedor
 
 **Victor Germano** — Estudante de Engenharia de Software (Universidade Cruzeiro do Sul) com foco em desenvolvimento web front-end e ferramentas de IA aplicadas.
 
@@ -148,9 +145,6 @@ GitHub push → Netlify detecta → Build automático → Site atualizado
 
 ---
 
-<div align="center">
+## Licença
 
-Feito com 💻 e ☕ por **Victor Germano** — São Paulo, Brasil
-
-</div>
-
+MIT License
